@@ -143,8 +143,11 @@ async def check_answer(quiz_id: str, question_id: int, answer: str) -> tuple[boo
         # Check if student gave just the letter (A, B, C, D) matching correct_answer
         if len(student_answer) == 1 and student_answer.upper() == correct_answer.upper():
             is_correct = True
+        # Check if student answer starts with the correct letter (e.g., "B) ...")
+        if not is_correct and len(correct_answer) == 1 and student_answer.upper().startswith(correct_answer.upper() + ")"):
+            is_correct = True
         # Check if correct_answer is a letter and student gave the full option text
-        if len(correct_answer) == 1:
+        if not is_correct and len(correct_answer) == 1:
             for opt in question_data.get("options", []):
                 if opt.startswith(f"{correct_answer.upper()})") and student_answer.lower() in opt.lower():
                     is_correct = True
