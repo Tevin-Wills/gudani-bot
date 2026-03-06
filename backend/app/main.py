@@ -4,7 +4,7 @@ from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 
 from app.models.schemas import HealthResponse, LanguageInfo
-from app.routers import chat, quiz, faq
+from app.routers import chat, quiz, faq, announce
 
 logging.basicConfig(
     level=logging.INFO,
@@ -24,6 +24,7 @@ app.add_middleware(
 app.include_router(chat.router)
 app.include_router(quiz.router)
 app.include_router(faq.router)
+app.include_router(announce.router)
 
 SUPPORTED_LANGUAGES = [
     LanguageInfo(code="en", name="English", native_name="English"),

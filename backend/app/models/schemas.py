@@ -19,21 +19,32 @@ class ChatRequest(BaseModel):
 
 class QuizStartRequest(BaseModel):
     subject: str
+    topic: str | None = None
     grade: int
     language: str | None = None
     num_questions: int = 5
 
 
 class QuizAnswerRequest(BaseModel):
-    question: str
-    student_answer: str
-    correct_answer: str
-    language: str | None = None
+    quiz_id: str
+    question_id: int
+    answer: str
+
+
+class QuizSummaryRequest(BaseModel):
+    quiz_id: str
 
 
 class FAQRequest(BaseModel):
     question: str
     language: str | None = None
+    category: str | None = None
+
+
+class AnnounceRequest(BaseModel):
+    message: str
+    tone: str = "formal"
+    source_language: str = "en"
 
 
 # --- Responses ---
@@ -45,9 +56,11 @@ class ChatResponse(BaseModel):
 
 
 class QuizQuestion(BaseModel):
+    id: int
+    type: str
     question: str
-    options: list[str] | None = None
-    question_number: int
+    options: list[str]
+    correct_answer: str
 
 
 class QuizStartResponse(BaseModel):
@@ -56,15 +69,27 @@ class QuizStartResponse(BaseModel):
 
 
 class QuizAnswerResponse(BaseModel):
-    is_correct: bool
-    feedback: str
+    correct: bool
     correct_answer: str
+    explanation: str
+
+
+class QuizSummaryResponse(BaseModel):
+    total: int
+    correct: int
+    score_percent: float
+    weak_areas: list[str]
+    recommendation: str
 
 
 class FAQResponse(BaseModel):
     answer: str
     source: str
     detected_language: str
+
+
+class AnnounceResponse(BaseModel):
+    translations: dict[str, str]
 
 
 class HealthResponse(BaseModel):

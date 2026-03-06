@@ -3,6 +3,9 @@ import { useApp } from "./context/AppContext";
 import Sidebar from "./components/Layout/Sidebar";
 import Header from "./components/Layout/Header";
 import ChatWindow from "./components/Chat/ChatWindow";
+import QuizMode from "./components/Quiz/QuizMode";
+import FAQChat from "./components/FAQ/FAQChat";
+import AnnouncementGenerator from "./components/Announcements/AnnouncementGenerator";
 import LanguageSelector from "./components/Settings/LanguageSelector";
 import GradeSelector from "./components/Settings/GradeSelector";
 
@@ -68,11 +71,11 @@ export default function App() {
       case "settings":
         return <SettingsPanel />;
       case "quiz":
-        return <ComingSoon title="Quiz" />;
+        return <QuizMode />;
       case "faq":
-        return <ComingSoon title="School Info" />;
+        return <FAQChat />;
       case "notices":
-        return <ComingSoon title="Notices" />;
+        return <AnnouncementGenerator />;
       default:
         return <ChatWindow clearKey={clearKey} />;
     }

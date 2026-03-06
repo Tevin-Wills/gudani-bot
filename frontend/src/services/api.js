@@ -33,23 +33,55 @@ export function sendMessage(message, language, grade, conversationHistory) {
   });
 }
 
-export function startQuiz({ subject, grade, language, num_questions }) {
+export function getSubjects() {
+  return request("/api/quiz/subjects");
+}
+
+export function startQuiz({ subject, topic, grade, language, num_questions }) {
   return request("/api/quiz/start", {
     method: "POST",
-    body: JSON.stringify({ subject, grade, language, num_questions }),
+    body: JSON.stringify({
+      subject,
+      topic: topic || null,
+      grade,
+      language: language === "auto" ? null : language,
+      num_questions,
+    }),
   });
 }
 
-export function submitAnswer({ question, student_answer, correct_answer, language }) {
+export function submitAnswer({ quiz_id, question_id, answer }) {
   return request("/api/quiz/answer", {
     method: "POST",
-    body: JSON.stringify({ question, student_answer, correct_answer, language }),
+    body: JSON.stringify({ quiz_id, question_id, answer }),
   });
 }
 
-export function askFAQ({ question, language }) {
+export function getQuizSummary(quiz_id) {
+  return request("/api/quiz/summary", {
+    method: "POST",
+    body: JSON.stringify({ quiz_id }),
+  });
+}
+
+export function getFAQCategories() {
+  return request("/api/faq/categories");
+}
+
+export function generateAnnouncement({ message, tone, source_language }) {
+  return request("/api/announce", {
+    method: "POST",
+    body: JSON.stringify({ message, tone, source_language }),
+  });
+}
+
+export function askFAQ({ question, language, category }) {
   return request("/api/faq", {
     method: "POST",
-    body: JSON.stringify({ question, language }),
+    body: JSON.stringify({
+      question,
+      language: language === "auto" ? null : language,
+      category: category || null,
+    }),
   });
 }

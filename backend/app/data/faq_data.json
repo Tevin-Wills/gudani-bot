@@ -1,77 +1,51 @@
-[
-  {
-    "question": "What time does school start and end?",
-    "answer": "Most South African schools start at 07:30 and end at 14:00 for primary schools and 14:30 for high schools. Times may vary by province and school.",
-    "keywords": ["time", "hours", "start", "end", "schedule", "bell"]
-  },
-  {
-    "question": "What is the school uniform policy?",
-    "answer": "All learners must wear the prescribed school uniform during school hours. This typically includes a school shirt, trousers or skirt, school shoes, and a jersey in winter. Each school sets its own specific uniform requirements.",
-    "keywords": ["uniform", "dress", "code", "clothes", "wear", "clothing"]
-  },
-  {
-    "question": "How much are school fees?",
-    "answer": "School fees vary by school. No-fee schools (quintile 1-3) do not charge fees. Fee-charging schools (quintile 4-5) set their own fees, typically ranging from R1,000 to R30,000+ per year. Parents can apply for fee exemptions if they cannot afford the fees.",
-    "keywords": ["fees", "cost", "pay", "money", "price", "afford", "exemption"]
-  },
-  {
-    "question": "What is NSFAS and how do I apply?",
-    "answer": "The National Student Financial Aid Scheme (NSFAS) provides bursaries to eligible students at public universities and TVET colleges. To apply, visit www.nsfas.org.za during the application period (usually August-November). You need a South African ID, proof of income, and academic records.",
-    "keywords": ["nsfas", "bursary", "financial", "aid", "funding", "student", "loan"]
-  },
-  {
-    "question": "What are the matric requirements?",
-    "answer": "To pass matric (Grade 12), you need: 40% in your home language, 40% in two other subjects, and 30% in three other subjects. For a Bachelor's pass, you need 50% in four subjects from the designated list. You must pass at least 6 out of 7 subjects.",
-    "keywords": ["matric", "grade 12", "pass", "requirements", "bachelor", "diploma", "nsc"]
-  },
-  {
-    "question": "How does grade progression work?",
-    "answer": "Learners can only be retained once per phase. The phases are: Foundation (Grades R-3), Intermediate (Grades 4-6), Senior (Grades 7-9), and FET (Grades 10-12). A learner who does not meet promotion requirements may be progressed to the next grade if they have already been retained in that phase.",
-    "keywords": ["progression", "promotion", "fail", "repeat", "retained", "phase", "pass"]
-  },
-  {
-    "question": "What is the school feeding scheme?",
-    "answer": "The National School Nutrition Programme (NSNP) provides free meals to learners in no-fee schools (quintile 1-3). Meals typically include a balanced lunch served daily at school. The programme aims to improve learning capacity and attendance.",
-    "keywords": ["feeding", "food", "meal", "lunch", "nutrition", "hungry", "eat"]
-  },
-  {
-    "question": "What sport activities are available at school?",
-    "answer": "Most South African schools offer sports including soccer, netball, cricket, rugby, athletics, and swimming. Some schools also offer basketball, hockey, tennis, and chess. Sport participation is encouraged but usually not compulsory.",
-    "keywords": ["sport", "activities", "soccer", "netball", "cricket", "rugby", "athletics", "extracurricular"]
-  },
-  {
-    "question": "When are parent meetings held?",
-    "answer": "Parent-teacher meetings are typically held once per term (4 times a year). Schools send notices at least a week in advance. These meetings are important for discussing your child's academic progress and behaviour.",
-    "keywords": ["parent", "meeting", "teacher", "conference", "term", "report"]
-  },
-  {
-    "question": "What is the homework policy?",
-    "answer": "Homework is assigned regularly to reinforce learning. The amount varies by grade: Foundation Phase may get 30 minutes, Intermediate Phase about 1 hour, and Senior/FET Phase 1-2 hours daily. Teachers should provide clear instructions and reasonable deadlines.",
-    "keywords": ["homework", "assignment", "study", "work", "home"]
-  },
-  {
-    "question": "What are the library hours?",
-    "answer": "School libraries are typically open from 07:00 to 15:00 on school days. Some schools extend hours for exam preparation. Learners can borrow books with a valid library card issued by the school.",
-    "keywords": ["library", "books", "read", "borrow", "hours"]
-  },
-  {
-    "question": "Are extra classes available?",
-    "answer": "Many schools offer extra classes, especially for Grade 12 learners preparing for matric exams. These are often held after school hours or on Saturdays. Some provinces also run free Saturday and holiday revision programmes.",
-    "keywords": ["extra", "classes", "tutoring", "revision", "saturday", "after school", "remedial"]
-  },
-  {
-    "question": "What is the code of conduct?",
-    "answer": "Every school must have a code of conduct adopted by the School Governing Body (SGB). It covers rules about behaviour, discipline, bullying, substance abuse, and use of electronic devices. Corporal punishment is illegal in all South African schools.",
-    "keywords": ["conduct", "rules", "discipline", "behaviour", "behavior", "bully", "punishment"]
-  },
-  {
-    "question": "Is school transport available?",
-    "answer": "Some provincial departments provide scholar transport for learners who live more than 5km from their nearest school. Parents can apply through the school or district office. Private school buses are also available at an additional cost.",
-    "keywords": ["transport", "bus", "travel", "distance", "ride", "commute"]
-  },
-  {
-    "question": "Is career guidance available at school?",
-    "answer": "Yes, Life Orientation teachers provide career guidance from Grade 9 onwards. This includes subject choice advice for Grade 10, career assessments, and information about university and TVET college applications. Many schools also host career expos.",
-    "keywords": ["career", "guidance", "counselling", "subject", "choice", "future", "job", "university"]
+{
+  "school_name": "Gudani Demo School",
+  "categories": {
+    "fees": {
+      "description": "School fees and payment information",
+      "items": [
+        { "q": "How much are school fees?", "a": "Annual school fees are R15,000 for 2026. This can be paid monthly (R1,250/month), quarterly, or annually. A 5% discount applies for full annual payment before 31 January." },
+        { "q": "When are fees due?", "a": "Monthly fees are due by the 7th of each month. Quarterly payments are due in January, April, July, and October." },
+        { "q": "What payment methods are accepted?", "a": "We accept EFT bank transfers, debit orders, cash payments at the school office, and Capitec/FNB/Standard Bank deposits. The school banking details are: Bank: FNB, Account: 62xxxxxxxx, Branch: 250655" },
+        { "q": "Is there financial assistance available?", "a": "Yes. Fee exemptions are available for qualifying families. NSFAS bursary applications for Grade 12 learners open in August each year. Please contact the school office for application forms." }
+      ]
+    },
+    "term_dates": {
+      "description": "School calendar and term dates",
+      "items": [
+        { "q": "When does school start?", "a": "Term 1: 14 January – 21 March 2026. Term 2: 1 April – 20 June 2026. Term 3: 14 July – 19 September 2026. Term 4: 29 September – 10 December 2026." },
+        { "q": "When are school holidays?", "a": "Autumn break: 22 March – 31 March. Winter break: 21 June – 13 July. Spring break: 20 September – 28 September. Summer break: 11 December – 13 January 2027." },
+        { "q": "What are the school hours?", "a": "School starts at 07:30 and ends at 14:30. After-school activities run until 16:00. The school gate opens at 06:45." }
+      ]
+    },
+    "admissions": {
+      "description": "Enrollment and admissions process",
+      "items": [
+        { "q": "How do I enroll my child?", "a": "Step 1: Collect an application form from the school office or download from our website. Step 2: Submit the form with certified copies of the child's birth certificate, previous school reports, immunization card, and proof of residence. Step 3: Pay the R200 non-refundable application fee. Step 4: Attend the interview (if applicable). Applications for the following year open on 1 May." },
+        { "q": "What documents are needed for enrollment?", "a": "Required: Birth certificate (certified copy), Previous school report card, Transfer card from previous school, Immunization/clinic card, Proof of residence (utility bill or lease), Parent/guardian ID document (certified copy), 2 passport-size photos." },
+        { "q": "Is there space available?", "a": "Please contact the admissions office at 015-xxx-xxxx or email admissions@gudanischool.co.za for current availability." }
+      ]
+    },
+    "uniform": {
+      "description": "School uniform requirements",
+      "items": [
+        { "q": "What is the school uniform?", "a": "Boys: Grey trousers, white shirt, school tie, navy blazer, black shoes. Girls: Grey skirt (below the knee), white blouse, school tie, navy blazer, black shoes. Sports uniform: House colour T-shirt, navy shorts, takkies." },
+        { "q": "Where can I buy the uniform?", "a": "School uniforms are available at: 1) The school tuck shop (Mondays and Wednesdays 07:00-08:00), 2) Uniform City in the town center, 3) PEP and Ackermans for basic items (white shirts, grey trousers/skirts)." }
+      ]
+    },
+    "transport": {
+      "description": "School transport information",
+      "items": [
+        { "q": "Is there a school bus?", "a": "Yes, the school operates 3 bus routes covering the main surrounding areas. The bus fee is R500/month. Contact the office for route maps and pickup times." },
+        { "q": "What is the drop-off procedure?", "a": "Drop-off zone is at the main gate (Gate A) between 06:45 and 07:25. No parking in the drop-off zone. Afternoon collection is from Gate B between 14:30 and 15:00." }
+      ]
+    },
+    "contacts": {
+      "description": "School contact information",
+      "items": [
+        { "q": "How do I contact the school?", "a": "Phone: 015-xxx-xxxx, Email: info@gudanischool.co.za, Physical address: 123 Education Street, Thohoyandou, Limpopo, 0950. Office hours: Monday–Friday, 07:00–16:00." },
+        { "q": "Who is the principal?", "a": "The principal is Mr. T. Mudau. You can request an appointment through the school secretary." }
+      ]
+    }
   }
-]
+}
