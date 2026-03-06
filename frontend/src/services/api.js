@@ -17,6 +17,10 @@ export function healthCheck() {
   return request("/api/health");
 }
 
+export function ping() {
+  return request("/api/ping");
+}
+
 export function getLanguages() {
   return request("/api/languages");
 }

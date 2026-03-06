@@ -48,6 +48,11 @@ async def root():
     return {"message": "Gudani Bot API is running!", "version": "1.0.0", "docs": "/docs"}
 
 
+@app.get("/api/ping")
+async def ping():
+    return {"pong": True}
+
+
 @app.get("/api/health", response_model=HealthResponse)
 async def health():
     return HealthResponse(status="ok", name="Gudani Bot")
