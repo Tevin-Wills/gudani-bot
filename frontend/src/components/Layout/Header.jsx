@@ -25,7 +25,7 @@ export default function Header({ activeTab, onClearChat }) {
         {activeTab === "chat" && onClearChat && (
           <button
             onClick={onClearChat}
-            title="Clear chat"
+            aria-label="Clear chat history"
             className="p-2 rounded-lg text-gray-400 hover:text-red-500 hover:bg-red-50 dark:hover:bg-red-900/20 transition-colors"
           >
             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" className="w-5 h-5">
@@ -36,6 +36,7 @@ export default function Header({ activeTab, onClearChat }) {
         <select
           value={language}
           onChange={(e) => setLanguage(e.target.value)}
+          aria-label="Select language"
           className="px-3 py-1.5 text-sm rounded-lg border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-800 text-gray-700 dark:text-gray-200 font-jakarta focus:outline-none focus:ring-2 focus:ring-teal-primary"
         >
           <option value="auto">Auto-detect</option>

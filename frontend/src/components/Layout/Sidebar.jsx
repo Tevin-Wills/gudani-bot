@@ -11,11 +11,13 @@ export default function Sidebar({ activeTab, onTabChange }) {
             Gudani
           </span>
         </div>
-        <nav className="flex-1 py-4 space-y-1">
+        <nav className="flex-1 py-4 space-y-1" aria-label="Main navigation">
           {TABS.map((tab) => (
             <button
               key={tab.id}
               onClick={() => onTabChange(tab.id)}
+              aria-label={tab.label}
+              aria-current={activeTab === tab.id ? "page" : undefined}
               className={`w-full flex items-center gap-3 px-4 py-3 text-sm font-jakarta transition-colors ${
                 activeTab === tab.id
                   ? "bg-teal-light dark:bg-gray-700 text-amber-accent"
@@ -30,18 +32,23 @@ export default function Sidebar({ activeTab, onTabChange }) {
       </aside>
 
       {/* Mobile bottom tab bar */}
-      <nav className="md:hidden fixed bottom-0 left-0 right-0 bg-teal-primary dark:bg-charcoal border-t border-teal-dark dark:border-gray-700 z-50 flex">
+      <nav
+        className="md:hidden fixed bottom-0 left-0 right-0 bg-teal-primary dark:bg-charcoal border-t border-teal-dark dark:border-gray-700 z-50 flex"
+        aria-label="Main navigation"
+      >
         {TABS.map((tab) => (
           <button
             key={tab.id}
             onClick={() => onTabChange(tab.id)}
-            className={`flex-1 flex flex-col items-center py-2 text-xs font-jakarta transition-colors ${
+            aria-label={tab.label}
+            aria-current={activeTab === tab.id ? "page" : undefined}
+            className={`flex-1 flex flex-col items-center py-2 text-[10px] font-jakarta transition-colors ${
               activeTab === tab.id
                 ? "text-amber-accent"
                 : "text-gray-300"
             }`}
           >
-            <span className="text-lg">{tab.emoji}</span>
+            <span className="text-xl mb-0.5">{tab.emoji}</span>
             <span>{tab.label}</span>
           </button>
         ))}

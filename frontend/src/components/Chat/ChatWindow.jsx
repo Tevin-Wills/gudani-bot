@@ -1,6 +1,6 @@
 import { useState, useRef, useEffect } from "react";
 import { useApp } from "../../context/AppContext";
-import { sendMessage } from "../../services/api";
+import { sendMessage, NetworkError } from "../../services/api";
 import { LANGUAGES } from "../../utils/constants";
 import MessageBubble from "./MessageBubble";
 import MessageInput from "./MessageInput";
@@ -46,6 +46,7 @@ function WelcomeScreen({ onQuickStart }) {
           <button
             key={card.label}
             onClick={() => onQuickStart(card.message)}
+            aria-label={card.label}
             className="flex flex-col items-center gap-2 w-36 px-4 py-5 rounded-2xl border border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-800 font-jakarta text-sm text-gray-700 dark:text-gray-200 hover:border-teal-primary hover:shadow-md dark:hover:border-teal-light transition-all animate-message-in"
           >
             <span className="text-2xl">{card.emoji}</span>
@@ -61,7 +62,7 @@ function formatTime() {
   return new Date().toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" });
 }
 
-export default function ChatWindow({ onClearChat, clearKey }) {
+export default function ChatWindow({ clearKey }) {
   const { language, grade } = useApp();
   const [messages, setMessages] = useState([]);
   const [loading, setLoading] = useState(false);
@@ -113,10 +114,18 @@ export default function ChatWindow({ onClearChat, clearKey }) {
         }
         return [...updated, botMsg];
       });
-    } catch {
+    } catch (err) {
+      let content;
+      if (err instanceof NetworkError) {
+        content = "Gudani Bot is currently sleeping. Please wait a moment and try again.";
+      } else if (err.message?.includes("translat")) {
+        content = "Translation unavailable \u2014 showing English";
+      } else {
+        content = "I had trouble thinking about that. Can you try asking differently?";
+      }
       const errorMsg = {
         role: "assistant",
-        content: "Eish! Something went wrong. Please try again.",
+        content,
         timestamp: formatTime(),
       };
       setMessages((prev) => [...prev, errorMsg]);

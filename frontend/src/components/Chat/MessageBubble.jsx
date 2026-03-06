@@ -7,7 +7,7 @@ const EXPLAIN_SIMPLER = {
   xh: "Nceda ucacise oko lula",
   st: "Ka kopo hlalosa seo ka tsela e bonolo",
   tn: "Tlhalosa seo ka tsela e e bonolo",
-  nso: "Hle hlaloša seo ka tsela e bonolo",
+  nso: "Hle hlalosha seo ka tsela e bonolo",
   ts: "Ndzi kombela u hlamusela sweswo hi ndlela yo olova",
   ve: "Ndi humbela u amba zwenezwo nga ndila yo leluwa",
 };
@@ -16,8 +16,12 @@ export default function MessageBubble({ message, onExplainSimpler }) {
   const isUser = message.role === "user";
 
   return (
-    <div className={`flex ${isUser ? "justify-end" : "justify-start"} px-4 py-1 animate-message-in`}>
-      <div className={`max-w-[80%] sm:max-w-[70%]`}>
+    <div
+      className={`flex ${isUser ? "justify-end" : "justify-start"} px-4 py-1 ${
+        isUser ? "animate-slide-in-right" : "animate-slide-in-left"
+      }`}
+    >
+      <div className="max-w-[90%] sm:max-w-[70%]">
         <div
           className={`px-4 py-2.5 rounded-2xl font-jakarta text-sm leading-relaxed whitespace-pre-wrap ${
             isUser
@@ -37,6 +41,11 @@ export default function MessageBubble({ message, onExplainSimpler }) {
               translated={message.translated}
             />
           )}
+          {message.translationNote && (
+            <span className="text-[10px] font-jakarta text-amber-accent">
+              {message.translationNote}
+            </span>
+          )}
         </div>
         {!isUser && onExplainSimpler && (
           <button
@@ -44,6 +53,7 @@ export default function MessageBubble({ message, onExplainSimpler }) {
               const lang = message.detected_language || "en";
               onExplainSimpler(EXPLAIN_SIMPLER[lang] || EXPLAIN_SIMPLER.en);
             }}
+            aria-label="Explain this answer in simpler terms"
             className="mt-1.5 inline-flex items-center gap-1 px-3 py-1 rounded-lg border border-gray-200 dark:border-gray-600 bg-white dark:bg-gray-800 text-xs font-jakarta text-gray-500 dark:text-gray-400 hover:border-teal-primary hover:text-teal-primary dark:hover:border-teal-light dark:hover:text-teal-light transition-colors"
           >
             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" className="w-3.5 h-3.5">

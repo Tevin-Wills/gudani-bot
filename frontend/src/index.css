@@ -15,6 +15,16 @@ body {
   font-family: "Plus Jakarta Sans", sans-serif;
 }
 
+/* Focus ring utility */
+*:focus-visible {
+  outline: 2px solid #0D4F4F;
+  outline-offset: 2px;
+  border-radius: 4px;
+}
+.dark *:focus-visible {
+  outline-color: #14706F;
+}
+
 /* Message animation */
 @keyframes messageIn {
   from {
@@ -29,6 +39,66 @@ body {
 
 .animate-message-in {
   animation: messageIn 0.3s ease-out;
+}
+
+/* Slide in from left (bot messages) */
+@keyframes slideInLeft {
+  from {
+    opacity: 0;
+    transform: translateX(-20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+.animate-slide-in-left {
+  animation: slideInLeft 0.3s ease-out;
+}
+
+/* Slide in from right (user messages) */
+@keyframes slideInFromRight {
+  from {
+    opacity: 0;
+    transform: translateX(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+.animate-slide-in-right {
+  animation: slideInFromRight 0.3s ease-out;
+}
+
+/* Tab content fade in */
+@keyframes tabFadeIn {
+  from { opacity: 0; transform: translateY(6px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.animate-tab-in {
+  animation: tabFadeIn 0.25s ease-out;
+}
+
+/* Skeleton shimmer for loading states */
+@keyframes skeletonShimmer {
+  0% { background-position: -200% 0; }
+  100% { background-position: 200% 0; }
+}
+
+.skeleton {
+  background: linear-gradient(90deg, #e5e7eb 25%, #f3f4f6 50%, #e5e7eb 75%);
+  background-size: 200% 100%;
+  animation: skeletonShimmer 1.5s ease-in-out infinite;
+  border-radius: 0.75rem;
+}
+
+.dark .skeleton {
+  background: linear-gradient(90deg, #374151 25%, #4b5563 50%, #374151 75%);
+  background-size: 200% 100%;
 }
 
 /* Typing dots */

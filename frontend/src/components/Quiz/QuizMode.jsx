@@ -136,9 +136,10 @@ export default function QuizMode() {
         <div className="px-6 py-4 bg-white dark:bg-gray-900 border-t border-gray-200 dark:border-gray-700 animate-message-in">
           <button
             onClick={handleNext}
+            aria-label={currentIndex < questions.length - 1 ? "Go to next question" : "See quiz results"}
             className="w-full py-3.5 rounded-xl bg-teal-primary hover:bg-teal-light dark:bg-teal-light dark:hover:bg-teal-primary text-white font-jakarta font-semibold text-sm transition-colors"
           >
-            {currentIndex < questions.length - 1 ? "Next Question →" : "See Results 🏆"}
+            {currentIndex < questions.length - 1 ? "Next Question →" : "See Results"}
           </button>
         </div>
       )}

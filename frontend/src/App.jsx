@@ -1,4 +1,4 @@
-import { useState, useCallback, useEffect, useRef } from "react";
+import { useState, useCallback, useEffect, useRef, Component } from "react";
 import { useApp } from "./context/AppContext";
 import { healthCheck, ping } from "./services/api";
 import Sidebar from "./components/Layout/Sidebar";
@@ -12,6 +12,47 @@ import GradeSelector from "./components/Settings/GradeSelector";
 
 const PING_INTERVAL = 13 * 60 * 1000;
 const WAKE_DELAY = 3000;
+
+class ErrorBoundary extends Component {
+  constructor(props) {
+    super(props);
+    this.state = { hasError: false };
+  }
+
+  static getDerivedStateFromError() {
+    return { hasError: true };
+  }
+
+  componentDidCatch(error, info) {
+    console.error("[gudani] error boundary:", error, info);
+  }
+
+  render() {
+    if (this.state.hasError) {
+      return (
+        <div className="flex flex-col items-center justify-center h-screen bg-cream dark:bg-gray-900 px-6 text-center">
+          <div className="w-20 h-20 rounded-2xl bg-teal-primary flex items-center justify-center shadow-lg mb-6">
+            <span className="text-4xl text-white font-jakarta font-bold">G</span>
+          </div>
+          <h1 className="font-jakarta font-bold text-2xl text-gray-800 dark:text-white mb-3">
+            Something went wrong
+          </h1>
+          <p className="font-jakarta text-gray-500 dark:text-gray-400 mb-6 max-w-sm">
+            Gudani ran into an unexpected problem. Please refresh the page to try again.
+          </p>
+          <button
+            onClick={() => window.location.reload()}
+            aria-label="Refresh page"
+            className="px-6 py-3 rounded-xl bg-teal-primary hover:bg-teal-light text-white font-jakarta font-semibold transition-colors focus-visible:outline focus-visible:outline-2 focus-visible:outline-teal-light"
+          >
+            Refresh Page
+          </button>
+        </div>
+      );
+    }
+    return this.props.children;
+  }
+}
 
 function SettingsPanel() {
   const { darkMode, setDarkMode } = useApp();
@@ -29,6 +70,7 @@ function SettingsPanel() {
         </label>
         <button
           onClick={() => setDarkMode(!darkMode)}
+          aria-label={darkMode ? "Switch to light mode" : "Switch to dark mode"}
           className={`flex items-center gap-3 px-4 py-3 rounded-xl border font-jakarta text-sm transition-colors ${
             darkMode
               ? "border-teal-light bg-teal-light/10 text-teal-light"
@@ -52,9 +94,11 @@ function WakeUpOverlay({ fadingOut }) {
       className={`fixed inset-0 z-50 flex flex-col items-center justify-center bg-cream dark:bg-gray-900 ${
         fadingOut ? "animate-fade-out" : ""
       }`}
+      role="status"
+      aria-label="Loading application"
     >
       <div className="animate-gentle-pulse mb-6">
-        <div className="w-20 h-20 rounded-2xl bg-teal dark:bg-teal-light flex items-center justify-center shadow-lg">
+        <div className="w-20 h-20 rounded-2xl bg-teal-primary dark:bg-teal-light flex items-center justify-center shadow-lg">
           <span className="text-4xl text-white font-jakarta font-bold">G</span>
         </div>
       </div>
@@ -65,27 +109,13 @@ function WakeUpOverlay({ fadingOut }) {
         This might take a moment
       </p>
       <div className="w-48 h-1.5 bg-gray-200 dark:bg-gray-700 rounded-full overflow-hidden">
-        <div className="h-full w-1/2 bg-teal dark:bg-teal-light rounded-full animate-shimmer" />
+        <div className="h-full w-1/2 bg-teal-primary dark:bg-teal-light rounded-full animate-shimmer" />
       </div>
     </div>
   );
 }
 
-function ComingSoon({ title }) {
-  return (
-    <div className="flex-1 flex flex-col items-center justify-center bg-cream dark:bg-gray-900 px-6">
-      <span className="text-5xl mb-4">{"\uD83D\uDEA7"}</span>
-      <h2 className="font-jakarta font-bold text-xl text-gray-800 dark:text-white mb-2">
-        {title}
-      </h2>
-      <p className="font-jakarta text-gray-500 dark:text-gray-400 text-sm">
-        Coming soon! We're working hard to bring you this feature.
-      </p>
-    </div>
-  );
-}
-
-export default function App() {
+function AppInner() {
   const [activeTab, setActiveTab] = useState("chat");
   const [clearKey, setClearKey] = useState(0);
   const [waking, setWaking] = useState(true);
@@ -152,8 +182,18 @@ export default function App() {
       <Sidebar activeTab={activeTab} onTabChange={setActiveTab} />
       <main className="flex-1 flex flex-col min-w-0 pb-16 md:pb-0">
         <Header activeTab={activeTab} onClearChat={handleClearChat} />
-        {renderContent()}
+        <div key={activeTab} className="flex-1 flex flex-col min-h-0 animate-tab-in">
+          {renderContent()}
+        </div>
       </main>
     </div>
+  );
+}
+
+export default function App() {
+  return (
+    <ErrorBoundary>
+      <AppInner />
+    </ErrorBoundary>
   );
 }

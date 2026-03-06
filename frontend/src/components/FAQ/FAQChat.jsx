@@ -1,6 +1,6 @@
 import { useState, useRef, useEffect } from "react";
 import { useApp } from "../../context/AppContext";
-import { getFAQCategories, askFAQ } from "../../services/api";
+import { getFAQCategories, askFAQ, NetworkError } from "../../services/api";
 
 const CATEGORY_EMOJI = {
   fees: "💰",
@@ -48,14 +48,16 @@ export default function FAQChat() {
         source: data.source,
       };
       setMessages((prev) => [...prev, botMsg]);
-    } catch {
+    } catch (err) {
+      let content;
+      if (err instanceof NetworkError) {
+        content = "Gudani Bot is currently sleeping. Please wait a moment and try again.";
+      } else {
+        content = "I had trouble thinking about that. Can you try asking differently?";
+      }
       setMessages((prev) => [
         ...prev,
-        {
-          role: "assistant",
-          content: "Eish! Something went wrong. Please try again.",
-          timestamp: formatTime(),
-        },
+        { role: "assistant", content, timestamp: formatTime() },
       ]);
     } finally {
       setLoading(false);
@@ -80,16 +82,18 @@ export default function FAQChat() {
     handleAsk(question, categoryId);
   }
 
-  // Get suggestions for active category
   const activeCatData = categories.find((c) => c.id === activeCategory);
 
   return (
     <div className="flex flex-col h-full">
       {/* Category chips */}
       <div className="px-4 py-3 bg-white dark:bg-gray-900 border-b border-gray-200 dark:border-gray-700 overflow-x-auto">
-        <div className="flex gap-2 min-w-max">
+        <div className="flex gap-2 min-w-max" role="tablist" aria-label="FAQ categories">
           <button
             onClick={() => setActiveCategory(null)}
+            role="tab"
+            aria-selected={activeCategory === null}
+            aria-label="All categories"
             className={`shrink-0 px-3 py-1.5 rounded-full font-jakarta text-xs font-medium transition-colors ${
               activeCategory === null
                 ? "bg-teal-primary text-white dark:bg-teal-light"
@@ -102,6 +106,9 @@ export default function FAQChat() {
             <button
               key={cat.id}
               onClick={() => setActiveCategory(cat.id)}
+              role="tab"
+              aria-selected={activeCategory === cat.id}
+              aria-label={cat.description}
               className={`shrink-0 px-3 py-1.5 rounded-full font-jakarta text-xs font-medium transition-colors ${
                 activeCategory === cat.id
                   ? "bg-teal-primary text-white dark:bg-teal-light"
@@ -120,7 +127,9 @@ export default function FAQChat() {
           <div className="px-4 py-6">
             {/* Welcome */}
             <div className="text-center mb-6 animate-message-in">
-              <span className="text-4xl mb-2 block">❓</span>
+              <div className="w-16 h-16 mx-auto mb-3 rounded-2xl bg-teal-primary/10 flex items-center justify-center">
+                <span className="text-3xl">❓</span>
+              </div>
               <h2 className="font-jakarta font-bold text-xl text-teal-primary dark:text-white mb-1">
                 School Information
               </h2>
@@ -139,6 +148,7 @@ export default function FAQChat() {
                   <button
                     key={i}
                     onClick={() => handleSuggestionClick(q, activeCatData.id)}
+                    aria-label={`Ask: ${q}`}
                     className="w-full text-left px-4 py-3 rounded-xl border border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-800 font-jakarta text-sm text-gray-700 dark:text-gray-200 hover:border-teal-primary dark:hover:border-teal-light hover:shadow-sm transition-all"
                   >
                     {q}
@@ -151,6 +161,7 @@ export default function FAQChat() {
                   <button
                     key={cat.id}
                     onClick={() => setActiveCategory(cat.id)}
+                    aria-label={`${cat.description} — ${cat.questions.length} questions`}
                     className="flex items-center gap-3 px-4 py-3.5 rounded-xl border border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-800 font-jakarta text-sm text-gray-700 dark:text-gray-200 hover:border-teal-primary dark:hover:border-teal-light hover:shadow-sm transition-all text-left"
                   >
                     <span className="text-xl">{CATEGORY_EMOJI[cat.id] || "📄"}</span>
@@ -170,9 +181,11 @@ export default function FAQChat() {
               return (
                 <div
                   key={i}
-                  className={`flex ${isUser ? "justify-end" : "justify-start"} px-4 py-1 animate-message-in`}
+                  className={`flex ${isUser ? "justify-end" : "justify-start"} px-4 py-1 ${
+                    isUser ? "animate-slide-in-right" : "animate-slide-in-left"
+                  }`}
                 >
-                  <div className="max-w-[80%] sm:max-w-[70%]">
+                  <div className="max-w-[90%] sm:max-w-[70%]">
                     <div
                       className={`px-4 py-2.5 rounded-2xl font-jakarta text-sm leading-relaxed whitespace-pre-wrap ${
                         isUser
@@ -207,6 +220,7 @@ export default function FAQChat() {
                     <button
                       key={i}
                       onClick={() => handleSuggestionClick(q, activeCatData.id)}
+                      aria-label={`Ask: ${q}`}
                       className="px-3 py-1.5 rounded-full border border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-800 font-jakarta text-xs text-gray-600 dark:text-gray-300 hover:border-teal-primary dark:hover:border-teal-light transition-colors"
                     >
                       {q}
@@ -216,7 +230,7 @@ export default function FAQChat() {
             )}
 
             {loading && (
-              <div className="flex items-center gap-2 px-4 py-2 animate-message-in">
+              <div className="flex items-center gap-2 px-4 py-2 animate-slide-in-left">
                 <div className="bg-gray-200 dark:bg-gray-700 rounded-2xl rounded-bl-sm px-4 py-3 flex items-center gap-1.5">
                   <span className="w-2 h-2 bg-teal-primary/60 dark:bg-teal-light/60 rounded-full animate-typing-dot" />
                   <span className="w-2 h-2 bg-teal-primary/60 dark:bg-teal-light/60 rounded-full animate-typing-dot [animation-delay:0.2s]" />
@@ -235,7 +249,7 @@ export default function FAQChat() {
       {/* Input */}
       <form
         onSubmit={handleSubmit}
-        className="flex items-end gap-2 p-3 bg-white dark:bg-gray-900 border-t border-gray-200 dark:border-gray-700"
+        className="flex items-end gap-2 p-3 bg-white dark:bg-gray-900 border-t border-gray-200 dark:border-gray-700 sticky bottom-0 md:relative"
       >
         <textarea
           value={input}
@@ -244,16 +258,22 @@ export default function FAQChat() {
           placeholder="Ask about the school..."
           rows={1}
           disabled={loading}
+          aria-label="FAQ question input"
           className="flex-1 resize-none rounded-xl border border-gray-300 dark:border-gray-600 bg-gray-50 dark:bg-gray-800 text-gray-800 dark:text-gray-100 px-4 py-2.5 text-sm font-jakarta placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-teal-primary disabled:opacity-50"
         />
         <button
           type="submit"
           disabled={!input.trim() || loading}
+          aria-label="Send question"
           className="shrink-0 w-10 h-10 flex items-center justify-center rounded-xl bg-teal-primary hover:bg-teal-light text-white transition-colors disabled:opacity-40 disabled:cursor-not-allowed"
         >
-          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" className="w-5 h-5">
-            <path d="M3.478 2.404a.75.75 0 0 0-.926.941l2.432 7.905H13.5a.75.75 0 0 1 0 1.5H4.984l-2.432 7.905a.75.75 0 0 0 .926.94 60.519 60.519 0 0 0 18.445-8.986.75.75 0 0 0 0-1.218A60.517 60.517 0 0 0 3.478 2.404Z" />
-          </svg>
+          {loading ? (
+            <span className="w-5 h-5 border-2 border-white/30 border-t-white rounded-full animate-spin" />
+          ) : (
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" className="w-5 h-5">
+              <path d="M3.478 2.404a.75.75 0 0 0-.926.941l2.432 7.905H13.5a.75.75 0 0 1 0 1.5H4.984l-2.432 7.905a.75.75 0 0 0 .926.94 60.519 60.519 0 0 0 18.445-8.986.75.75 0 0 0 0-1.218A60.517 60.517 0 0 0 3.478 2.404Z" />
+            </svg>
+          )}
         </button>
       </form>
     </div>

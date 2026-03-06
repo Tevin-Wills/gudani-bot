@@ -14,11 +14,14 @@ export default function LanguageSelector() {
       <label className="block text-sm font-jakarta font-semibold text-gray-700 dark:text-gray-200 mb-2">
         Language
       </label>
-      <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
+      <div className="grid grid-cols-1 sm:grid-cols-2 gap-2" role="radiogroup" aria-label="Language selection">
         {OPTIONS.map((lang) => (
           <button
             key={lang.code}
             onClick={() => setLanguage(lang.code)}
+            role="radio"
+            aria-checked={language === lang.code}
+            aria-label={lang.code === "auto" ? "Auto-detect language" : `${lang.native_name} (${lang.name})`}
             className={`flex items-center gap-3 px-4 py-3 rounded-xl border text-left font-jakarta text-sm transition-colors ${
               language === lang.code
                 ? "border-teal-primary bg-teal-primary/10 dark:border-teal-light dark:bg-teal-light/10 text-teal-primary dark:text-teal-light"
