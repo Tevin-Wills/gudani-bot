@@ -15,7 +15,11 @@ app = FastAPI(title="Gudani Bot API", version="1.0.0")
 
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["*"],
+    allow_origins=[
+        "http://localhost:5173",
+        "https://gudani-bot.vercel.app",
+    ],
+    allow_origin_regex=r"https://.*\.vercel\.app",
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
@@ -37,6 +41,11 @@ SUPPORTED_LANGUAGES = [
     LanguageInfo(code="ts", name="Tsonga", native_name="Xitsonga"),
     LanguageInfo(code="ve", name="Venda", native_name="Tshivenda"),
 ]
+
+
+@app.get("/")
+async def root():
+    return {"message": "Gudani Bot API is running!", "version": "1.0.0", "docs": "/docs"}
 
 
 @app.get("/api/health", response_model=HealthResponse)
