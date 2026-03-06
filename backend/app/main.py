@@ -48,7 +48,7 @@ async def root():
     return {"message": "Gudani Bot API is running!", "version": "1.0.0", "docs": "/docs"}
 
 
-@app.get("/api/ping")
+@app.api_route("/api/ping", methods=["GET", "HEAD"])
 async def ping():
     return {"pong": True}
 
