@@ -10,6 +10,11 @@
 </p>
 
 <p align="center">
+  <a href="https://gudani-bot.vercel.app"><strong>Live Demo</strong></a> &nbsp;|&nbsp;
+  <a href="https://gudani-bot.onrender.com/docs"><strong>API Docs</strong></a>
+</p>
+
+<p align="center">
   <img src="https://img.shields.io/badge/Python-3.11+-3776AB?logo=python&logoColor=white" alt="Python" />
   <img src="https://img.shields.io/badge/FastAPI-0.115-009688?logo=fastapi&logoColor=white" alt="FastAPI" />
   <img src="https://img.shields.io/badge/React-18-61DAFB?logo=react&logoColor=black" alt="React" />
@@ -239,7 +244,7 @@ Base URL: `http://localhost:8000` (dev) or your Render URL (prod)
 |--------|--------------------|--------------------------|
 | `GET`  | `/`                | Root — API status        |
 | `GET`  | `/api/health`      | Health check             |
-| `GET`  | `/api/ping`        | Keep-alive ping          |
+| `GET/HEAD` | `/api/ping`   | Keep-alive ping          |
 | `GET`  | `/api/languages`   | List supported languages |
 
 ### Chat
@@ -374,6 +379,7 @@ gudani-bot/
 │   ├── requirements.txt
 │   ├── Procfile                   # Render start command
 │   ├── render.yaml                # Render deployment config
+│   ├── test_api.py               # Quick API smoke tests
 │   ├── .env.example
 │   └── .gitignore
 ├── frontend/
@@ -419,7 +425,8 @@ gudani-bot/
 │   ├── .env.production
 │   └── .gitignore
 ├── docs/
-│   └── PRESENTATION.md           # Demo talking points
+│   ├── PRESENTATION.md           # Demo talking points
+│   └── TESTING_CHECKLIST.md      # Manual testing checklist
 └── README.md
 ```
 
