@@ -15,22 +15,49 @@ import TypingIndicator from "./TypingIndicator";
 import HistorySidebar from "./HistorySidebar";
 
 const WELCOME_MESSAGES = {
-  en: "Welcome to Gudani Bot! I'm your community and learning assistant.",
-  af: "Welkom by Gudani Bot! Ek is jou gemeenskap- en leerhulp.",
-  zu: "Siyakwamukela ku-Gudani Bot! Ngingumsizi womphakathi nokufunda.",
-  xh: "Wamkelekile kuGudani Bot! Ndingumncedi woluntu nokufunda.",
-  st: "Rea o amohela ho Gudani Bot! Ke mothusi wa setjhaba le ho ithuta.",
-  tn: "O amogetswe mo go Gudani Bot! Ke mothusi wa baagi le go ithuta.",
-  nso: "O amogelegile go Gudani Bot! Ke mothuši wa setšhaba le go ithuta.",
-  ts: "Xewani eka Gudani Bot! Ndzi mupfuni wa muganga na ku dyondza.",
-  ve: "Vho tanganedzwa kha Gudani Bot! Ndi mupfuni wa tshitshavha na u guda.",
+  en: "I'm Gudani, your community assistant. Ask anything — translation, forms, local info, language help, schoolwork.",
+  af: "Ek is Gudani, jou gemeenskapshelper. Vra enigiets — vertalings, vorms, plaaslike inligting, taalhulp, skoolwerk.",
+  zu: "Ngingu-Gudani, umsizi womphakathi. Buza noma yini — ukuhumusha, amafomu, ulwazi lwasekhaya, usizo lolimi, umsebenzi wesikole.",
+  xh: "Ndingu-Gudani, umncedi woluntu. Buza nantoni na — uguqulelo, iifomu, ulwazi loluntu, uncedo lolwimi, umsebenzi wesikolo.",
+  st: "Ke 'na Gudani, mothusi wa setjhaba. Botsa eng kapa eng — phetolelo, diforomo, tlhahisoleseding ya lehae, thuso ya puo, mosebetsi wa sekolo.",
+  tn: "Ke nna Gudani, mothusi wa baagi. Botsa sengwe le sengwe — thanolo, diforomo, tshedimosetso ya selegae, thuso ya puo, tiro ya sekolo.",
+  nso: "Ke nna Gudani, mothuši wa setšhaba. Botšiša selo se sengwe le se sengwe — phetolelo, diforomo, tshedimošo ya selegae, thušo ya polelo, mošomo wa sekolo.",
+  ts: "Hi mina Gudani, mupfuni wa muganga. Vutisa nchumu wihi na wihi — vuhundzuluxeri, mafomo, vuxokoxoko bya laha kaya, mpfuno wa ririmi, ntirho wa xikolo.",
+  ve: "Ndi nne Gudani, mupfuni wa tshitshavha. Vhudzisani tshithu naho tshi tshini — u thanyula, fomo, mafhungo a vundu, thuso ya luambo, mushumo wa tshikolo.",
 };
 
+// Community-first ordering: everyday/community use cases first, schoolwork last.
 const QUICK_CARDS = [
-  { emoji: "📚", label: "Help with homework", message: "I need help with my homework" },
-  { emoji: "🇿🇦", label: "Translate something", message: "Help me translate something to another South African language" },
-  { emoji: "📝", label: "Explain a form", message: "I have a form or document I don't understand. Can you help?" },
-  { emoji: "🗣️", label: "Learn Tshivenda", message: "Teach me a few useful Tshivenda phrases" },
+  {
+    emoji: "🌍",
+    label: "Translate something",
+    message: "Help me translate something to another South African language",
+  },
+  {
+    emoji: "📄",
+    label: "Explain a form",
+    message: "I have a form or document I don't fully understand. Can you help me?",
+  },
+  {
+    emoji: "🗣️",
+    label: "Learn Tshivenda",
+    message: "Teach me a few useful Tshivenda phrases",
+  },
+  {
+    emoji: "🏘️",
+    label: "Community info",
+    message: "I have a question about my community or local services",
+  },
+  {
+    emoji: "📸",
+    label: "Read an image",
+    message: "I'd like to send a photo and ask about it",
+  },
+  {
+    emoji: "📚",
+    label: "Schoolwork help",
+    message: "I need help with my schoolwork",
+  },
 ];
 
 function WelcomeScreen({ onQuickStart }) {
@@ -39,32 +66,38 @@ function WelcomeScreen({ onQuickStart }) {
   const greeting = WELCOME_MESSAGES[language] || WELCOME_MESSAGES.en;
 
   return (
-    <div className="flex-1 flex flex-col items-center justify-center px-6 py-10 text-center">
-      <img src="/gudani-icon.svg" alt="Gudani Bot" className="w-20 h-20 mb-5 animate-message-in" />
-      <h2 className="font-jakarta font-bold text-2xl text-teal-primary dark:text-white mb-2 animate-message-in">
-        Gudani!
-      </h2>
-      <p className="font-jakarta text-gray-600 dark:text-gray-300 mb-2 max-w-md animate-message-in">
-        {greeting}
-      </p>
-      <p className="font-jakarta text-xs text-gray-500 dark:text-gray-400 mb-4 max-w-md animate-message-in">
-        Ask in any of 9 South African languages · attach an image · use the mic
-      </p>
-      <span className="inline-block px-3 py-1 rounded-full bg-teal-primary/10 dark:bg-teal-light/20 text-teal-primary dark:text-teal-light text-sm font-jakarta mb-8 animate-message-in">
-        {lang?.native_name || "Auto-detect"}
-      </span>
-      <div className="flex flex-wrap justify-center gap-3">
-        {QUICK_CARDS.map((card) => (
-          <button
-            key={card.label}
-            onClick={() => onQuickStart(card.message)}
-            aria-label={card.label}
-            className="flex flex-col items-center gap-2 w-36 px-4 py-5 rounded-2xl border border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-800 font-jakarta text-sm text-gray-700 dark:text-gray-200 hover:border-teal-primary hover:shadow-md dark:hover:border-teal-light transition-all animate-message-in"
-          >
-            <span className="text-2xl">{card.emoji}</span>
-            <span className="font-medium">{card.label}</span>
-          </button>
-        ))}
+    <div className="flex-1 flex items-center justify-center px-4 sm:px-6 py-8">
+      <div className="w-full max-w-2xl text-center">
+        <img
+          src="/gudani-icon.svg"
+          alt=""
+          className="w-16 h-16 sm:w-20 sm:h-20 mx-auto mb-4 animate-message-in"
+        />
+        <h2 className="font-jakarta font-bold text-2xl sm:text-3xl text-teal-primary dark:text-white mb-2 animate-message-in">
+          Gudani!
+        </h2>
+        <p className="font-jakarta text-sm sm:text-base text-gray-600 dark:text-gray-300 mb-2 max-w-lg mx-auto animate-message-in">
+          {greeting}
+        </p>
+        <p className="font-jakarta text-xs text-gray-500 dark:text-gray-400 mb-5 animate-message-in">
+          9 South African languages · text · image · voice
+        </p>
+        <span className="inline-block px-3 py-1 rounded-full bg-teal-primary/10 dark:bg-teal-light/20 text-teal-primary dark:text-teal-light text-xs font-jakarta mb-6 animate-message-in">
+          {lang?.native_name || "Auto-detect"}
+        </span>
+        <div className="grid grid-cols-2 sm:grid-cols-3 gap-2 sm:gap-3">
+          {QUICK_CARDS.map((card) => (
+            <button
+              key={card.label}
+              onClick={() => onQuickStart(card.message)}
+              aria-label={card.label}
+              className="flex flex-col items-center gap-1.5 px-3 py-4 sm:py-5 rounded-2xl border border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-800 font-jakarta text-xs sm:text-sm text-gray-700 dark:text-gray-200 hover:border-teal-primary hover:shadow-md dark:hover:border-teal-light transition-all animate-message-in"
+            >
+              <span className="text-2xl" aria-hidden="true">{card.emoji}</span>
+              <span className="font-medium leading-snug text-center">{card.label}</span>
+            </button>
+          ))}
+        </div>
       </div>
     </div>
   );
@@ -74,17 +107,16 @@ function formatTime() {
   return new Date().toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" });
 }
 
-export default function ChatWindow({ clearKey }) {
+export default function ChatWindow({ clearKey, historyOpen = false, onCloseHistory }) {
   const { language, grade } = useApp();
   const [messages, setMessages] = useState([]);
   const [loading, setLoading] = useState(false);
   const [attachedImage, setAttachedImage] = useState(null);
   const [conversationId, setConversationId] = useState(null);
-  const [historyOpen, setHistoryOpen] = useState(false);
   const [historyRefreshKey, setHistoryRefreshKey] = useState(0);
   const bottomRef = useRef(null);
 
-  // Reset on Clear Chat (and start a new conversation context).
+  // Reset on Clear Chat / New Chat (and start a new conversation context).
   useEffect(() => {
     setMessages([]);
     setAttachedImage(null);
@@ -138,7 +170,6 @@ export default function ChatWindow({ clearKey }) {
     try {
       let data;
       if (image) {
-        // Image-mode call: send to vision endpoint.
         data = await analyzeImage({
           file: image,
           mode: "qa",
@@ -223,34 +254,22 @@ export default function ChatWindow({ clearKey }) {
     <div className="flex flex-col h-full relative">
       <HistorySidebar
         open={historyOpen}
-        onClose={() => setHistoryOpen(false)}
+        onClose={onCloseHistory}
         activeConversationId={conversationId}
         onSelect={handleSelectConversation}
         onNew={handleNewConversation}
         refreshKey={historyRefreshKey}
       />
-      <div className="flex items-center justify-between px-4 py-2 border-b border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-900">
-        <button
-          onClick={() => setHistoryOpen(true)}
-          aria-label="Show past chats"
-          className="inline-flex items-center gap-2 px-3 py-1.5 rounded-lg text-xs font-jakarta text-gray-600 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors"
-        >
-          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" className="w-4 h-4">
-            <path fillRule="evenodd" d="M10 18a8 8 0 1 0 0-16 8 8 0 0 0 0 16Zm.75-13a.75.75 0 0 0-1.5 0v5c0 .2.08.39.22.53l3 3a.75.75 0 1 0 1.06-1.06l-2.78-2.78V5Z" clipRule="evenodd" />
-          </svg>
-          Past chats
-        </button>
-        {conversationId && (
-          <span className="text-[10px] font-jakarta text-gray-400">
-            saved · {conversationId.slice(0, 6)}
-          </span>
-        )}
-      </div>
       <div className="flex-1 overflow-y-auto bg-cream dark:bg-gray-900">
         {messages.length === 0 ? (
           <WelcomeScreen onQuickStart={(text) => handleSend(text, null)} />
         ) : (
           <div className="py-4">
+            {conversationId && (
+              <p className="text-center text-[10px] font-jakarta text-gray-400 mb-2">
+                saved · {conversationId.slice(0, 6)}
+              </p>
+            )}
             {messages.map((msg, i) => (
               <MessageBubble
                 key={i}

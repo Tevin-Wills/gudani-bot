@@ -131,10 +131,10 @@ export default function FAQChat() {
                 <span className="text-3xl">❓</span>
               </div>
               <h2 className="font-jakarta font-bold text-xl text-teal-primary dark:text-white mb-1">
-                School Information
+                Community & school info
               </h2>
               <p className="font-jakarta text-sm text-gray-500 dark:text-gray-400">
-                Ask anything about Gudani Demo School or tap a question below
+                Ask about your community or your local school. Tap a category below or type your own question.
               </p>
             </div>
 
@@ -255,7 +255,7 @@ export default function FAQChat() {
           value={input}
           onChange={(e) => setInput(e.target.value)}
           onKeyDown={handleKeyDown}
-          placeholder="Ask about the school..."
+          placeholder="Ask about your community or school..."
           rows={1}
           disabled={loading}
           aria-label="FAQ question input"

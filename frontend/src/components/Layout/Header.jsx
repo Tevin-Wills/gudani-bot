@@ -1,51 +1,82 @@
-import { useApp } from "../../context/AppContext";
-import { LANGUAGES } from "../../utils/constants";
+import { TABS } from "../../utils/constants";
 
-export default function Header({ activeTab, onClearChat }) {
-  const { language, setLanguage } = useApp();
+const TAB_TITLES = {
+  chat: { title: "Chat", subtitle: "Ask anything · 9 languages · image · voice" },
+  learn: { title: "Learn", subtitle: "Tshivenda + South African languages" },
+  quiz: { title: "Practice & Quiz", subtitle: "Mixed CAPS-aligned questions" },
+  faq: { title: "Community & School Info", subtitle: "Quick answers about your area" },
+  notices: { title: "Notices & Messages", subtitle: "Translate to all 9 languages" },
+  settings: { title: "Settings", subtitle: "Language, grade, appearance" },
+};
+
+/**
+ * Sticky top header. On mobile shows a hamburger that opens the drawer.
+ * On the chat tab it also exposes Past chats / New chat actions so they
+ * don't crowd the chat body.
+ */
+export default function Header({
+  activeTab,
+  onOpenDrawer,
+  onOpenHistory,
+  onNewChat,
+}) {
+  const tab = TAB_TITLES[activeTab] || TAB_TITLES.chat;
+  const showChatActions = activeTab === "chat";
 
   return (
-    <header className="flex items-center justify-between px-4 py-3 bg-white dark:bg-gray-900 border-b border-gray-200 dark:border-gray-700 sticky top-0 z-40">
-      <div className="flex items-center gap-3">
-        <img
-          src="/gudani-icon.svg"
-          alt="Gudani"
-          className="w-8 h-8 md:hidden"
-        />
-        <div>
-          <h1 className="font-jakarta font-bold text-teal-primary dark:text-white text-lg leading-tight">
-            Gudani Bot
+    <header className="sticky top-0 z-40 bg-white/95 dark:bg-gray-900/95 backdrop-blur border-b border-gray-200 dark:border-gray-700">
+      <div className="flex items-center gap-2 sm:gap-3 px-3 sm:px-5 py-3">
+        {/* Hamburger (mobile only) */}
+        <button
+          type="button"
+          onClick={onOpenDrawer}
+          aria-label="Open navigation menu"
+          className="md:hidden shrink-0 p-2 -ml-1 rounded-lg text-gray-600 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-800"
+        >
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" className="w-6 h-6">
+            <path fillRule="evenodd" d="M2 5.75A.75.75 0 0 1 2.75 5h14.5a.75.75 0 0 1 0 1.5H2.75A.75.75 0 0 1 2 5.75Zm0 4.5A.75.75 0 0 1 2.75 9.5h14.5a.75.75 0 0 1 0 1.5H2.75a.75.75 0 0 1-.75-.75Zm.75 3.75a.75.75 0 0 0 0 1.5h14.5a.75.75 0 0 0 0-1.5H2.75Z" clipRule="evenodd" />
+          </svg>
+        </button>
+
+        {/* Title block (truncates on small screens) */}
+        <div className="min-w-0 flex-1">
+          <h1 className="font-jakarta font-bold text-base sm:text-lg leading-tight text-teal-primary dark:text-white truncate">
+            {tab.title}
           </h1>
-          <p className="text-xs text-gray-500 dark:text-gray-400 font-jakarta">
-            Multilingual community & learning assistant
+          <p className="font-jakarta text-[11px] sm:text-xs leading-tight text-gray-500 dark:text-gray-400 truncate">
+            {tab.subtitle}
           </p>
         </div>
-      </div>
-      <div className="flex items-center gap-2">
-        {activeTab === "chat" && onClearChat && (
-          <button
-            onClick={onClearChat}
-            aria-label="Clear chat history"
-            className="p-2 rounded-lg text-gray-400 hover:text-red-500 hover:bg-red-50 dark:hover:bg-red-900/20 transition-colors"
-          >
-            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" className="w-5 h-5">
-              <path fillRule="evenodd" d="M8.75 1A2.75 2.75 0 0 0 6 3.75v.443c-.795.077-1.584.176-2.365.298a.75.75 0 1 0 .23 1.482l.149-.022.841 10.518A2.75 2.75 0 0 0 7.596 19h4.807a2.75 2.75 0 0 0 2.742-2.53l.841-10.519.149.023a.75.75 0 0 0 .23-1.482A41.03 41.03 0 0 0 14 4.193V3.75A2.75 2.75 0 0 0 11.25 1h-2.5ZM10 4c.84 0 1.673.025 2.5.075V3.75c0-.69-.56-1.25-1.25-1.25h-2.5c-.69 0-1.25.56-1.25 1.25v.325C8.327 4.025 9.16 4 10 4ZM8.58 7.72a.75.75 0 0 0-1.5.06l.3 7.5a.75.75 0 1 0 1.5-.06l-.3-7.5Zm4.34.06a.75.75 0 1 0-1.5-.06l-.3 7.5a.75.75 0 1 0 1.5.06l.3-7.5Z" clipRule="evenodd" />
-            </svg>
-          </button>
+
+        {/* Chat actions */}
+        {showChatActions && (
+          <div className="flex items-center gap-1 sm:gap-2 shrink-0">
+            <button
+              type="button"
+              onClick={onOpenHistory}
+              aria-label="Show past chats"
+              title="Past chats"
+              className="inline-flex items-center gap-1.5 px-2.5 sm:px-3 py-1.5 rounded-lg text-xs font-jakarta text-gray-600 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors border border-gray-200 dark:border-gray-700"
+            >
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" className="w-4 h-4">
+                <path fillRule="evenodd" d="M10 18a8 8 0 1 0 0-16 8 8 0 0 0 0 16Zm.75-13a.75.75 0 0 0-1.5 0v5c0 .2.08.39.22.53l3 3a.75.75 0 1 0 1.06-1.06l-2.78-2.78V5Z" clipRule="evenodd" />
+              </svg>
+              <span className="hidden sm:inline">Past chats</span>
+            </button>
+            <button
+              type="button"
+              onClick={onNewChat}
+              aria-label="Start a new chat"
+              title="New chat"
+              className="inline-flex items-center gap-1.5 px-2.5 sm:px-3 py-1.5 rounded-lg text-xs font-jakarta text-white bg-teal-primary hover:bg-teal-light transition-colors"
+            >
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" className="w-4 h-4">
+                <path d="M10.75 4.75a.75.75 0 0 0-1.5 0v4.5h-4.5a.75.75 0 0 0 0 1.5h4.5v4.5a.75.75 0 0 0 1.5 0v-4.5h4.5a.75.75 0 0 0 0-1.5h-4.5v-4.5Z" />
+              </svg>
+              <span className="hidden sm:inline">New</span>
+            </button>
+          </div>
         )}
-        <select
-          value={language}
-          onChange={(e) => setLanguage(e.target.value)}
-          aria-label="Select language"
-          className="px-3 py-1.5 text-sm rounded-lg border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-800 text-gray-700 dark:text-gray-200 font-jakarta focus:outline-none focus:ring-2 focus:ring-teal-primary"
-        >
-          <option value="auto">Auto-detect</option>
-          {LANGUAGES.map((lang) => (
-            <option key={lang.code} value={lang.code}>
-              {lang.native_name}
-            </option>
-          ))}
-        </select>
       </div>
     </header>
   );

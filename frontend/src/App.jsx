@@ -59,31 +59,31 @@ function SettingsPanel() {
   const { darkMode, setDarkMode } = useApp();
 
   return (
-    <div className="flex-1 overflow-y-auto bg-cream dark:bg-gray-900 p-6 space-y-8">
-      <h2 className="font-jakarta font-bold text-xl text-gray-800 dark:text-white">
-        Settings
-      </h2>
-      <LanguageSelector />
-      <GradeSelector />
-      <div>
-        <label className="block text-sm font-jakarta font-semibold text-gray-700 dark:text-gray-200 mb-2">
-          Appearance
-        </label>
-        <button
-          onClick={() => setDarkMode(!darkMode)}
-          aria-label={darkMode ? "Switch to light mode" : "Switch to dark mode"}
-          className={`flex items-center gap-3 px-4 py-3 rounded-xl border font-jakarta text-sm transition-colors ${
-            darkMode
-              ? "border-teal-light bg-teal-light/10 text-teal-light"
-              : "border-gray-200 bg-white text-gray-700 hover:border-gray-300"
-          }`}
-        >
-          <span className="text-lg">{darkMode ? "\uD83C\uDF19" : "\u2600\uFE0F"}</span>
-          <span>{darkMode ? "Dark mode" : "Light mode"}</span>
-          <span className="ml-auto text-xs text-gray-400">
-            Tap to switch
-          </span>
-        </button>
+    <div className="flex-1 overflow-y-auto bg-cream dark:bg-gray-900">
+      <div className="max-w-2xl mx-auto px-4 sm:px-6 py-6 space-y-6">
+        <p className="font-jakarta text-sm text-gray-500 dark:text-gray-400 -mt-1">
+          Personalise your community assistant.
+        </p>
+        <LanguageSelector />
+        <GradeSelector />
+        <div>
+          <label className="block text-sm font-jakarta font-semibold text-gray-700 dark:text-gray-200 mb-2">
+            Appearance
+          </label>
+          <button
+            onClick={() => setDarkMode(!darkMode)}
+            aria-label={darkMode ? "Switch to light mode" : "Switch to dark mode"}
+            className={`w-full sm:w-auto flex items-center gap-3 px-4 py-3 rounded-xl border font-jakarta text-sm transition-colors ${
+              darkMode
+                ? "border-teal-light bg-teal-light/10 text-teal-light"
+                : "border-gray-200 bg-white text-gray-700 hover:border-gray-300"
+            }`}
+          >
+            <span className="text-lg">{darkMode ? "🌙" : "☀️"}</span>
+            <span>{darkMode ? "Dark mode" : "Light mode"}</span>
+            <span className="ml-auto text-xs text-gray-400">Tap to switch</span>
+          </button>
+        </div>
       </div>
     </div>
   );
@@ -92,7 +92,7 @@ function SettingsPanel() {
 function WakeUpOverlay({ fadingOut }) {
   return (
     <div
-      className={`fixed inset-0 z-50 flex flex-col items-center justify-center bg-cream dark:bg-gray-900 ${
+      className={`fixed inset-0 z-[70] flex flex-col items-center justify-center bg-cream dark:bg-gray-900 ${
         fadingOut ? "animate-fade-out" : ""
       }`}
       role="status"
@@ -121,6 +121,8 @@ function AppInner() {
   const [clearKey, setClearKey] = useState(0);
   const [waking, setWaking] = useState(true);
   const [fadingOut, setFadingOut] = useState(false);
+  const [drawerOpen, setDrawerOpen] = useState(false);
+  const [historyOpen, setHistoryOpen] = useState(false);
   const showOverlay = useRef(false);
 
   const handleClearChat = useCallback(() => {
@@ -160,10 +162,21 @@ function AppInner() {
     return () => clearInterval(interval);
   }, []);
 
+  // Close drawer when switching tabs (mobile)
+  useEffect(() => {
+    setDrawerOpen(false);
+  }, [activeTab]);
+
   function renderContent() {
     switch (activeTab) {
       case "chat":
-        return <ChatWindow clearKey={clearKey} />;
+        return (
+          <ChatWindow
+            clearKey={clearKey}
+            historyOpen={historyOpen}
+            onCloseHistory={() => setHistoryOpen(false)}
+          />
+        );
       case "learn":
         return <LearnMode />;
       case "settings":
@@ -180,11 +193,21 @@ function AppInner() {
   }
 
   return (
-    <div className="flex h-screen bg-cream dark:bg-gray-900">
+    <div className="flex h-screen bg-cream dark:bg-gray-900 overflow-hidden">
       {waking && <WakeUpOverlay fadingOut={fadingOut} />}
-      <Sidebar activeTab={activeTab} onTabChange={setActiveTab} />
-      <main className="flex-1 flex flex-col min-w-0 pb-16 md:pb-0">
-        <Header activeTab={activeTab} onClearChat={handleClearChat} />
+      <Sidebar
+        activeTab={activeTab}
+        onTabChange={setActiveTab}
+        drawerOpen={drawerOpen}
+        onDrawerClose={() => setDrawerOpen(false)}
+      />
+      <main className="flex-1 flex flex-col min-w-0">
+        <Header
+          activeTab={activeTab}
+          onOpenDrawer={() => setDrawerOpen(true)}
+          onOpenHistory={() => setHistoryOpen(true)}
+          onNewChat={handleClearChat}
+        />
         <div key={activeTab} className="flex-1 flex flex-col min-h-0 animate-tab-in">
           {renderContent()}
         </div>

@@ -2,15 +2,37 @@ import { useState } from "react";
 import { generateAnnouncement, NetworkError } from "../../services/api";
 import { LANGUAGES } from "../../utils/constants";
 
+// Templates cover common community AND school messaging. Community-first
+// ordering so the section doesn't read as school-only.
 const TEMPLATES = [
   {
-    label: "Fee reminder",
+    label: "Community meeting",
+    emoji: "👥",
+    text: "Dear community members, you are invited to a community meeting this Saturday at 14:00 at the local hall. We will discuss upcoming events, shared services, and concerns raised by residents. Please attend if you can.",
+  },
+  {
+    label: "Local event",
+    emoji: "🎉",
+    text: "Join us for a community event this weekend! Activities for children, food, music, and a chance to connect with your neighbours. Time and venue details will be shared closer to the day.",
+  },
+  {
+    label: "Service notice",
+    emoji: "🚧",
+    text: "Service notice: There will be a planned water/electricity interruption in the area tomorrow between 09:00 and 14:00 for routine maintenance. Please prepare in advance. We apologise for any inconvenience.",
+  },
+  {
+    label: "Lost & found",
+    emoji: "🔍",
+    text: "Lost & found notice: A personal item has been found in the area. The owner can claim it by describing it accurately. Please contact the community contact person if it belongs to you or someone you know.",
+  },
+  {
+    label: "School fee reminder",
     emoji: "💰",
     text: "Reminder: School fees for this month are due by the 7th. Please ensure timely payment to avoid any disruption. Contact the school office if you need assistance with payment arrangements.",
   },
   {
     label: "Parent meeting",
-    emoji: "👥",
+    emoji: "🏫",
     text: "Dear parents and guardians, you are invited to a parent-teacher meeting on Friday at 14:30 in the school hall. We will discuss learner progress and upcoming events. Your attendance is important.",
   },
   {
@@ -83,10 +105,10 @@ export default function AnnouncementGenerator() {
             <span className="text-3xl">📢</span>
           </div>
           <h2 className="font-jakarta font-bold text-xl text-teal-primary dark:text-white mb-1">
-            Announcement Generator
+            Notices & messages
           </h2>
           <p className="font-jakarta text-sm text-gray-500 dark:text-gray-400">
-            Write once, translate to all 9 languages instantly
+            Write a community or school notice once — get it in all 9 languages.
           </p>
         </div>
 

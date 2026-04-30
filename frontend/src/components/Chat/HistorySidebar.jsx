@@ -60,19 +60,24 @@ export default function HistorySidebar({
     }
   }
 
+  // History drawer slides in over the chat panel. We use the same z-index ladder
+  // as the main nav drawer so they don't fight each other:
+  //   60 — drawer + drawer backdrop
+  //   40 — sticky header
+  //   30 — sticky chat input
   return (
     <>
-      {open && (
-        <div
-          className="fixed inset-0 bg-black/40 z-40 md:hidden"
-          onClick={onClose}
-          aria-hidden="true"
-        />
-      )}
+      <div
+        onClick={onClose}
+        aria-hidden="true"
+        className={`fixed inset-0 bg-black/50 z-[60] transition-opacity duration-200 ${
+          open ? "opacity-100" : "opacity-0 pointer-events-none"
+        }`}
+      />
       <aside
         aria-hidden={!open}
-        className={`fixed md:absolute top-0 left-0 h-full w-72 bg-white dark:bg-gray-900 border-r border-gray-200 dark:border-gray-700 z-50 flex flex-col transition-transform ${
-          open ? "translate-x-0" : "-translate-x-full"
+        className={`fixed top-0 right-0 h-full w-80 max-w-[90vw] bg-white dark:bg-gray-900 border-l border-gray-200 dark:border-gray-700 z-[60] flex flex-col transition-transform duration-200 ease-out ${
+          open ? "translate-x-0" : "translate-x-full"
         }`}
       >
         <div className="flex items-center justify-between px-4 py-3 border-b border-gray-200 dark:border-gray-700">
