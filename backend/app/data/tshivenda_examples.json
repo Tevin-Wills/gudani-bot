@@ -1,0 +1,93 @@
+{
+  "_meta": {
+    "description": "Few-shot Tshivenda Q&A pairs used to anchor the model on correct spelling, register, and natural phrasing. These are injected into the system prompt for ve language.",
+    "version": "1.0",
+    "guidance": "Keep examples short, natural, and verifiably correct. Cover greetings, school, community, language-learning, basic everyday topics. Mark uncertain entries as removed rather than guessed."
+  },
+  "examples": [
+    {
+      "user": "Ndaa, ni khou ita hani?",
+      "assistant": "Ndaa! Ndi khou ita zwavhuḓi, ndi a livhuwa. Inwi vha khou ita hani?"
+    },
+    {
+      "user": "Madzina anu ndi mini?",
+      "assistant": "Madzina anga ndi Gudani. Inwi madzina anu ndi mini?"
+    },
+    {
+      "user": "Ndi nga ni thusa hani?",
+      "assistant": "Ndi nga ni thusa nga u fhindula mbudziso dzanu, u amba nga Tshivenda na nyambo dziṅwe, na u guda ndaela dza zwikolo."
+    },
+    {
+      "user": "Mbumbano ndi mini?",
+      "assistant": "Mbumbano ndi muvhigo wa muthu kha vhathu vhaṅwe — zwine ra zwi vhona musi vhathu vha tshi shumisana, vha tshi pfana, na u khwaṱhisedza vhubammbo. Mbumbano i fanela u ṅwalwa nga \"Mbumbano\" — hu si \"mbumbno\"."
+    },
+    {
+      "user": "Ndi nga amba hani 'thank you' nga Tshivenda?",
+      "assistant": "Ni nga ri 'Ndi a livhuwa' (ngeno). Arali ni tshi khou livhuwa muthu o no ni thusa, ni nga ri 'Ndo livhuwa'."
+    },
+    {
+      "user": "Ndi ḓo ya tshikolo nga matsheloni",
+      "assistant": "Zwavhuḓi! Ni khou amba uri ni ya tshikolo nga matsheloni. Ni khou guda mini namusi?"
+    },
+    {
+      "user": "Ndi tama u guda Tshivenda",
+      "assistant": "Ndi a takala ni tshi tama u guda Tshivenda! Ri nga thoma nga zwi tevhelaho:\n• Ndumeliso: 'Ndaa' (musadzi/munna), 'Aa' (vhana)\n• 'Hello' = 'Ndaa'\n• 'Thank you' = 'Ndi a livhuwa'\n• 'Yes' = 'Ee', 'No' = 'Hai'\nNi tama u thoma ngafhi?"
+    },
+    {
+      "user": "Vhusiku ho ḓi takadza",
+      "assistant": "Zwo luga! Vhusiku ho ḓi takadza — zwi amba uri 'the night was enjoyable'. Ndi amba zwone?"
+    },
+    {
+      "user": "Ndi humbela thuso",
+      "assistant": "Ndi henefha! Ni nga mphumbela thuso nga zwine na zwi ṱoda. Ni khou ṱoda thuso ya mini — mushumo wa tshikolo, u ṱalutshedza ipfi, kana zwiṅwe?"
+    },
+    {
+      "user": "Lufuno ndi mini?",
+      "assistant": "Lufuno ndi muhumbulo wa u funa muthu kana tshithu. Ndi maitele a phathutshedzo, u ṱhonifha, na u ṱoḓa zwavhuḓi kha muṅwe."
+    },
+    {
+      "user": "Vhavenda vha bva ngafhi?",
+      "assistant": "Vhavenda vha dzula zwihulwane kha vundu ḽa Limpopo, Afurika Tshipembe, vunḓuni ḽine ḽa pfi Vhembe. Vha shumisa luambo lwa Tshivenda."
+    },
+    {
+      "user": "Khotsi anga vha khou ita hani?",
+      "assistant": "Inwi ni khou vhudzisa nga ha khotsi aṋu. Vha khou ita hani namusi?"
+    },
+    {
+      "user": "Ndo no fhedza mushumo wanga",
+      "assistant": "Ho ḓo luga! Ndo no fhedza mushumo wanga zwi amba 'I have finished my work'. Mushumo wo vha u tshini?"
+    },
+    {
+      "user": "Mulalo ndi tshifhio?",
+      "assistant": "Mulalo ndi musi hu si na mukosi kana nndwa — ho dzika, vhathu vha tshi pfana, hu na vhukonani. Ndi tshithu tsha ndeme kha mbumbano ya vhathu."
+    },
+    {
+      "user": "Ni amba Tshivenda?",
+      "assistant": "Ee, ndi linga u amba Tshivenda. Naho ndi sa ḓivhi nyambo ḓzothe nga vhuḓalo, ndi ḓo ni thusa nga zwine nda kona, na u ni vhudza arali ndi sa ḓivhi tshithu."
+    },
+    {
+      "user": "Tshivenda na isiZulu zwi a fhambana?",
+      "assistant": "Ee, zwi a fhambana. Tshivenda ndi luambo lwa Bantu lwa Vhembe, vunḓu ḽa Limpopo. isiZulu ndi luambo lwa Bantu lwa KwaZulu-Natal. Zwo fhambana kha mubvumo wa ipfi, mahala, na mafhungo a tshikulwane — fhedzi vhuvhili ndi nyambo dza Bantu."
+    },
+    {
+      "user": "Ndi nga ri 'good morning' hani?",
+      "assistant": "Ni nga ri 'Ndi matsheloni avhuḓi!' kana vhukuma 'Ndaa' arali hu na vhathu vhanzhi. 'Aa' ndi tshumiso ya vhana kana kha tshiimo tsho leluwaho."
+    },
+    {
+      "user": "Vhomudzimu vha funa lufuno",
+      "assistant": "Ni khou amba uri 'God loves love' kana 'God values love'. Hu na ndaela dziṋwe nga ha mafhungo aya kha luṱenda lwa Vhavenda na vhatendeli vhaṅwe."
+    },
+    {
+      "user": "Khoro yo ima nga matsheloni",
+      "assistant": "Khoro (the council/court meeting) yo ima nga matsheloni — zwi amba 'the council met in the morning'. Khoro ndi tshithu tsha tshikulwane tsha Vhavenda, hune havho vha lalanyiwa milayo na ndaela."
+    },
+    {
+      "user": "Ndi takadzwa nga musidzana",
+      "assistant": "Musidzana ndi 'girl' kana 'young woman'. Ni khou amba uri ni a mu funa kana ni a takala nga ene. Vhukati ho!"
+    },
+    {
+      "user": "Aa, ni khou ya ngafhi?",
+      "assistant": "Aa! Ndi khou tea u sumbedza vhuthu nga u tshimbila — ndi humbela ni mphumbele tshikolo. Inwi vha khou ya ngafhi?"
+    }
+  ]
+}

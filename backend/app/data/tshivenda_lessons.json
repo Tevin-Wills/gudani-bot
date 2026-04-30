@@ -1,0 +1,131 @@
+{
+  "_meta": {
+    "description": "Curated Tshivenda lessons for the language-learning mode. Hand-checked entries — do not auto-generate.",
+    "version": "1.0"
+  },
+  "phrase_of_the_day": [
+    {"ve": "Ndaa", "en": "Hello (respectful, used by/to elders)", "note": "Standard greeting. 'Aa' is the response or used for children."},
+    {"ve": "Ndi a livhuwa", "en": "Thank you", "note": "Use 'Ndo livhuwa' to express gratitude after someone has helped you."},
+    {"ve": "Ni khou ita hani?", "en": "How are you?", "note": "Literal: 'How are you doing?'"},
+    {"ve": "Ndi khou ita zwavhuḓi", "en": "I am doing well", "note": "Common reply to 'Ni khou ita hani?'"},
+    {"ve": "Madzina anu ndi mini?", "en": "What is your name?", "note": "Plural/respectful form."},
+    {"ve": "Madzina anga ndi …", "en": "My name is …", "note": "Fill in your name."},
+    {"ve": "Ndi ḓo ya …", "en": "I am going to …", "note": "Use this to talk about destinations."},
+    {"ve": "Ni nga mphusa?", "en": "Can you help me?", "note": "Polite request for help."},
+    {"ve": "A thi ḓivhi", "en": "I don't know", "note": "Useful when you're not sure."},
+    {"ve": "Ee / Hai", "en": "Yes / No", "note": "Very common, learn these first."}
+  ],
+  "vocabulary": {
+    "greetings": [
+      {"ve": "Ndaa", "en": "Hello (formal/respectful)"},
+      {"ve": "Aa", "en": "Hello (informal, to children)"},
+      {"ve": "Ni khou ita hani?", "en": "How are you?"},
+      {"ve": "Ndi khou ita zwavhuḓi", "en": "I am doing well"},
+      {"ve": "Vhusiku havhuḓi", "en": "Good night"},
+      {"ve": "Matsheloni avhuḓi", "en": "Good morning"},
+      {"ve": "Masiari avhuḓi", "en": "Good afternoon"},
+      {"ve": "Sala zwavhuḓi", "en": "Stay well (goodbye to person staying)"},
+      {"ve": "Tshimbila zwavhuḓi", "en": "Travel well (goodbye to person leaving)"}
+    ],
+    "family": [
+      {"ve": "khotsi", "en": "father"},
+      {"ve": "mma", "en": "mother"},
+      {"ve": "ṅwana", "en": "child"},
+      {"ve": "vhana", "en": "children"},
+      {"ve": "khaladzi", "en": "sister"},
+      {"ve": "murathu", "en": "younger brother"},
+      {"ve": "mukomana", "en": "elder brother"},
+      {"ve": "mukulu", "en": "elder/senior person"},
+      {"ve": "muḓuhulu", "en": "grandchild"},
+      {"ve": "vho khulu", "en": "grandparent (respectful)"}
+    ],
+    "school_and_learning": [
+      {"ve": "tshikolo", "en": "school"},
+      {"ve": "mudededzi", "en": "teacher"},
+      {"ve": "mugudisi", "en": "tutor / one who teaches"},
+      {"ve": "muguḓa", "en": "learner"},
+      {"ve": "bugu", "en": "book"},
+      {"ve": "luambo", "en": "language"},
+      {"ve": "mubvumo", "en": "sound / pronunciation"},
+      {"ve": "ipfi", "en": "word"},
+      {"ve": "muhumbulo", "en": "thought / idea"},
+      {"ve": "thuso", "en": "help"}
+    ],
+    "everyday": [
+      {"ve": "muḓi", "en": "home / homestead"},
+      {"ve": "thavha", "en": "mountain"},
+      {"ve": "milambo", "en": "rivers"},
+      {"ve": "ḓuvha", "en": "sun / day"},
+      {"ve": "mvula", "en": "rain"},
+      {"ve": "muvhili", "en": "body"},
+      {"ve": "lufu", "en": "death"},
+      {"ve": "vhutshilo", "en": "life"},
+      {"ve": "mulalo", "en": "peace"},
+      {"ve": "lufuno", "en": "love"}
+    ],
+    "community": [
+      {"ve": "Vhavenda", "en": "the Venda people"},
+      {"ve": "Tshivenda", "en": "the Tshivenda language"},
+      {"ve": "khoro", "en": "council / community meeting"},
+      {"ve": "musanda", "en": "chief's place / royal kraal"},
+      {"ve": "Mbumbano", "en": "unity / coming together"},
+      {"ve": "mvelaphanda", "en": "development / progress"},
+      {"ve": "muvhuso", "en": "government"},
+      {"ve": "mushumo", "en": "work"}
+    ]
+  },
+  "lessons": [
+    {
+      "id": "greetings-101",
+      "title": "Tshivenda Greetings 101",
+      "level": "beginner",
+      "summary": "Basic Tshivenda greetings, when to use them, and how to respond.",
+      "content": [
+        "'Ndaa' is the standard respectful greeting. Use it with elders, in formal settings, or with anyone you want to show respect to.",
+        "'Aa' is the informal version, used with children or close friends. It can also be a response to 'Ndaa'.",
+        "After greeting, ask: 'Ni khou ita hani?' (How are you?). The plural 'ni' is the respectful form even for one person.",
+        "Reply: 'Ndi khou ita zwavhuḓi, ndi a livhuwa.' (I am well, thank you.)",
+        "When parting, say 'Sala zwavhuḓi' to someone staying behind, or 'Tshimbila zwavhuḓi' to someone going away."
+      ],
+      "practice": [
+        "Greet your friend in the morning: Ndaa! Matsheloni avhuḓi.",
+        "Ask how they are: Ni khou ita hani?",
+        "Reply: Ndi khou ita zwavhuḓi."
+      ]
+    },
+    {
+      "id": "introducing-yourself",
+      "title": "Introducing Yourself",
+      "level": "beginner",
+      "summary": "Say your name and ask someone theirs.",
+      "content": [
+        "'Madzina anga ndi …' = 'My name is …'",
+        "'Madzina anu ndi mini?' = 'What is your name?'",
+        "'Ndi bva …' = 'I am from …' (then add the place)",
+        "'Ndi na minwaha …' = 'I am … years old'"
+      ],
+      "practice": [
+        "Madzina anga ndi Tevin. Madzina anu ndi mini?",
+        "Ndi bva Thohoyandou.",
+        "Ndi na minwaha 22."
+      ]
+    },
+    {
+      "id": "asking-for-help",
+      "title": "Asking for Help",
+      "level": "beginner",
+      "summary": "Useful phrases to ask for and offer help.",
+      "content": [
+        "'Ni nga mphusa?' = 'Can you help me?'",
+        "'Ndi humbela thuso' = 'I am asking for help'",
+        "'Ndi nga ni thusa nga mini?' = 'How can I help you?'",
+        "'Ndi a livhuwa' = 'Thank you'"
+      ],
+      "practice": [
+        "Ni nga mphusa? Ndi xela.",
+        "Ee, ndi nga ni thusa.",
+        "Ndi a livhuwa."
+      ]
+    }
+  ]
+}

@@ -7,6 +7,7 @@ import ChatWindow from "./components/Chat/ChatWindow";
 import QuizMode from "./components/Quiz/QuizMode";
 import FAQChat from "./components/FAQ/FAQChat";
 import AnnouncementGenerator from "./components/Announcements/AnnouncementGenerator";
+import LearnMode from "./components/Learn/LearnMode";
 import LanguageSelector from "./components/Settings/LanguageSelector";
 import GradeSelector from "./components/Settings/GradeSelector";
 
@@ -163,6 +164,8 @@ function AppInner() {
     switch (activeTab) {
       case "chat":
         return <ChatWindow clearKey={clearKey} />;
+      case "learn":
+        return <LearnMode />;
       case "settings":
         return <SettingsPanel />;
       case "quiz":

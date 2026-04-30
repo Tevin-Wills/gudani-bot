@@ -1,4 +1,6 @@
+import { useState } from "react";
 import LanguageBadge from "./LanguageBadge";
+import { speakText, stopSpeaking } from "../../hooks/useVoice";
 
 const EXPLAIN_SIMPLER = {
   en: "Please explain that more simply",
@@ -14,6 +16,25 @@ const EXPLAIN_SIMPLER = {
 
 export default function MessageBubble({ message, onExplainSimpler }) {
   const isUser = message.role === "user";
+  const [speaking, setSpeaking] = useState(false);
+  const [voiceNote, setVoiceNote] = useState(null);
+
+  function handlePlay() {
+    if (speaking) {
+      stopSpeaking();
+      setSpeaking(false);
+      return;
+    }
+    const result = speakText(message.content, { language: message.detected_language });
+    if (result.ok) {
+      setSpeaking(true);
+      // Best-effort: clear speaking state after content length suggests it's done.
+      const approxMs = Math.max(2000, message.content.length * 60);
+      setTimeout(() => setSpeaking(false), approxMs);
+    } else {
+      setVoiceNote(result.reason || "Voice playback unavailable");
+    }
+  }
 
   return (
     <div
@@ -22,24 +43,32 @@ export default function MessageBubble({ message, onExplainSimpler }) {
       }`}
     >
       <div className="max-w-[90%] sm:max-w-[70%]">
-        <div
-          className={`px-4 py-2.5 rounded-2xl font-jakarta text-sm leading-relaxed whitespace-pre-wrap ${
-            isUser
-              ? "bg-teal-primary text-white rounded-br-sm"
-              : "bg-gray-100 dark:bg-gray-700 text-gray-800 dark:text-gray-100 rounded-bl-sm"
-          }`}
-        >
-          {message.content}
-        </div>
+        {message.image_url && (
+          <img
+            src={message.image_url}
+            alt="attached"
+            className={`mb-1 rounded-2xl border border-gray-200 dark:border-gray-700 max-h-60 ${
+              isUser ? "ml-auto" : ""
+            }`}
+          />
+        )}
+        {message.content && (
+          <div
+            className={`px-4 py-2.5 rounded-2xl font-jakarta text-sm leading-relaxed whitespace-pre-wrap ${
+              isUser
+                ? "bg-teal-primary text-white rounded-br-sm"
+                : "bg-gray-100 dark:bg-gray-700 text-gray-800 dark:text-gray-100 rounded-bl-sm"
+            }`}
+          >
+            {message.content}
+          </div>
+        )}
         <div className={`flex items-center gap-2 mt-1 ${isUser ? "justify-end" : "justify-start"}`}>
           <span className="text-[10px] text-gray-400 dark:text-gray-500 font-jakarta">
             {message.timestamp}
           </span>
           {message.detected_language && (
-            <LanguageBadge
-              code={message.detected_language}
-              translated={message.translated}
-            />
+            <LanguageBadge code={message.detected_language} translated={message.translated} />
           )}
           {message.translationNote && (
             <span className="text-[10px] font-jakarta text-amber-accent">
@@ -47,20 +76,40 @@ export default function MessageBubble({ message, onExplainSimpler }) {
             </span>
           )}
         </div>
-        {!isUser && onExplainSimpler && (
-          <button
-            onClick={() => {
-              const lang = message.detected_language || "en";
-              onExplainSimpler(EXPLAIN_SIMPLER[lang] || EXPLAIN_SIMPLER.en);
-            }}
-            aria-label="Explain this answer in simpler terms"
-            className="mt-1.5 inline-flex items-center gap-1 px-3 py-1 rounded-lg border border-gray-200 dark:border-gray-600 bg-white dark:bg-gray-800 text-xs font-jakarta text-gray-500 dark:text-gray-400 hover:border-teal-primary hover:text-teal-primary dark:hover:border-teal-light dark:hover:text-teal-light transition-colors"
-          >
-            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" className="w-3.5 h-3.5">
-              <path fillRule="evenodd" d="M18 10a8 8 0 1 1-16 0 8 8 0 0 1 16 0ZM8.94 6.94a.75.75 0 1 1-1.061-1.061 3 3 0 1 1 2.871 5.026v.345a.75.75 0 0 1-1.5 0v-.5c0-.72.57-1.172 1.081-1.287A1.5 1.5 0 1 0 8.94 6.94ZM10 15a1 1 0 1 0 0-2 1 1 0 0 0 0 2Z" clipRule="evenodd" />
-            </svg>
-            Explain simpler
-          </button>
+        {!isUser && message.content && (
+          <div className="flex flex-wrap items-center gap-1.5 mt-1.5">
+            {onExplainSimpler && (
+              <button
+                onClick={() => {
+                  const lang = message.detected_language || "en";
+                  onExplainSimpler(EXPLAIN_SIMPLER[lang] || EXPLAIN_SIMPLER.en);
+                }}
+                aria-label="Explain this answer in simpler terms"
+                className="inline-flex items-center gap-1 px-3 py-1 rounded-lg border border-gray-200 dark:border-gray-600 bg-white dark:bg-gray-800 text-xs font-jakarta text-gray-500 dark:text-gray-400 hover:border-teal-primary hover:text-teal-primary dark:hover:border-teal-light dark:hover:text-teal-light transition-colors"
+              >
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" className="w-3.5 h-3.5">
+                  <path fillRule="evenodd" d="M18 10a8 8 0 1 1-16 0 8 8 0 0 1 16 0ZM8.94 6.94a.75.75 0 1 1-1.061-1.061 3 3 0 1 1 2.871 5.026v.345a.75.75 0 0 1-1.5 0v-.5c0-.72.57-1.172 1.081-1.287A1.5 1.5 0 1 0 8.94 6.94ZM10 15a1 1 0 1 0 0-2 1 1 0 0 0 0 2Z" clipRule="evenodd" />
+                </svg>
+                Explain simpler
+              </button>
+            )}
+            <button
+              onClick={handlePlay}
+              aria-label={speaking ? "Stop speaking" : "Play this answer aloud"}
+              className="inline-flex items-center gap-1 px-3 py-1 rounded-lg border border-gray-200 dark:border-gray-600 bg-white dark:bg-gray-800 text-xs font-jakarta text-gray-500 dark:text-gray-400 hover:border-teal-primary hover:text-teal-primary dark:hover:border-teal-light dark:hover:text-teal-light transition-colors"
+            >
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" className="w-3.5 h-3.5">
+                <path d="M7 4a3 3 0 0 1 6 0v6a3 3 0 1 1-6 0V4Z" />
+                <path d="M5.5 9.643a.75.75 0 0 0-1.5 0V10c0 3.06 2.29 5.585 5.25 5.954V17.5h-1.5a.75.75 0 0 0 0 1.5h4.5a.75.75 0 0 0 0-1.5h-1.5v-1.546A6.001 6.001 0 0 0 16 10v-.357a.75.75 0 0 0-1.5 0V10a4.5 4.5 0 0 1-9 0v-.357Z" />
+              </svg>
+              {speaking ? "Stop" : "Listen"}
+            </button>
+            {voiceNote && (
+              <span className="text-[10px] font-jakarta text-amber-600 dark:text-amber-400">
+                {voiceNote}
+              </span>
+            )}
+          </div>
         )}
       </div>
     </div>

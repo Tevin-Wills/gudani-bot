@@ -17,7 +17,7 @@ export default function Header({ activeTab, onClearChat }) {
             Gudani Bot
           </h1>
           <p className="text-xs text-gray-500 dark:text-gray-400 font-jakarta">
-            Learn in your language
+            Multilingual community & learning assistant
           </p>
         </div>
       </div>

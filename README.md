@@ -3,10 +3,11 @@
 </p>
 
 <h1 align="center">Gudani Bot 🤖📚</h1>
-<h3 align="center"><em>"Gudani! — Learn in your language"</em></h3>
+<h3 align="center"><em>"Gudani! — Your multilingual community & learning assistant"</em></h3>
 
 <p align="center">
-  A multilingual South African school chatbot supporting 9 official languages.
+  A multilingual South African community assistant supporting 9 languages — chat,
+  image understanding, voice, language learning, and a Tshivenda-quality layer.
 </p>
 
 <p align="center">
@@ -27,40 +28,64 @@
 
 ## 📖 Overview
 
-South Africa has 11 official languages, yet most educational technology is only available in English. This creates a significant barrier for millions of learners who think and learn best in their home language.
+South Africa has 11 official languages, yet most digital tools only speak English. **Gudani Bot** is a multilingual assistant for **students AND the broader community** — homework help, translation, document/form understanding, language learning, and everyday questions, all in your home language.
 
-**Gudani Bot** bridges this gap. Named after the Tshivenda word meaning *"to learn"*, it is an AI-powered school chatbot that lets students ask questions, take quizzes, and access school information — all in their own language.
+Named after the Tshivenda word meaning *"to learn"*, Gudani Bot has been deliberately broadened from a school-only chatbot to a community-wide assistant. Schoolwork still works the way it did; the same chat now also handles photos of forms or signs, voice input, and dedicated language-learning sessions.
 
-The bot automatically detects the learner's language, processes queries through a large language model, and translates responses back — making quality education accessible regardless of language.
+### What's new in v2
+
+- **🖼️ Image upload + vision** — photograph schoolwork, posters, signs, or forms and ask questions about them.
+- **🎙️ Voice in / voice out** — speak instead of typing; hear answers read aloud (browser-side; honest fallbacks for low-resource languages).
+- **🗂️ Persistent chat history** — saved past conversations you can reopen or delete.
+- **🎓 Learn mode** — phrase-of-the-day, vocabulary, lessons, translation, explain-this-word, and flashcard practice. Tshivenda is the priority.
+- **🌟 Tshivenda quality layer** — heuristic detection (langdetect lacks a ve profile), curated few-shot examples, post-processing corrections (e.g., `mbumbno` → `Mbumbano`), and Gemini routing. Includes an offline + live evaluation harness.
 
 ---
 
 ## ✨ Features
 
 ### 💬 Multilingual Chat
-AI-powered homework help and learning assistant. Ask questions in any of the 9 supported languages and get answers translated back.
+Ask anything — homework, translation, document understanding, everyday questions, community matters. Auto-detects language; replies in your language. Tshivenda is routed through a dedicated quality pipeline.
 
-<!-- ![Chat Screenshot](docs/screenshots/chat.png) -->
+### 🖼️ Image Upload + Vision
+Tap the paperclip in chat to attach an image. Gudani Bot uses Gemini Vision to read text, describe the picture, or answer your specific question about it. Useful for photographed schoolwork, posters, signs, and forms.
+
+### 🎙️ Voice
+- **Mic button** records your question and sends it as text (browser SpeechRecognition).
+- **"Listen" button** on each assistant reply reads it aloud (browser SpeechSynthesis).
+- Browser support varies by language. English/Afrikaans/isiZulu/isiXhosa work well in modern Chrome/Edge; Tshivenda and other low-resource languages typically have **no native voices** — Gudani surfaces this honestly rather than faking output.
+
+### 🗂️ Past Chats
+All conversations are saved server-side. Open the **Past chats** drawer in the chat tab to reopen or delete any prior conversation.
+
+### 🎓 Learn Mode
+Dedicated tab for language learning. Tshivenda is the priority and uses curated content; other South African languages are best-effort via the LLM.
+- Phrase of the day (curated)
+- Vocabulary by category (greetings, family, school, everyday, community)
+- Beginner lessons with practice lines
+- Translate text → target language
+- Explain a word/phrase
+- Flashcard practice
+
+### 🌟 Tshivenda Quality Layer
+Tshivenda was getting low-quality output through the generic translate-roundtrip pipeline (e.g., the model emitting `mbumbno` instead of `Mbumbano`). The fixes:
+1. **Heuristic detection** for Tshivenda before langdetect (langdetect has no ve profile).
+2. **Direct Gemini routing** — no English roundtrip — with a Tshivenda-anchored system prompt that forbids guessed spellings and instructs the model to admit uncertainty.
+3. **Curated few-shot examples** (20+) covering greetings, school, community, language learning.
+4. **Corrections normalizer** applied to both input and output: `mbumbno → Mbumbano`, `tshi venda → Tshivenda`, `ndilivhuwa → Ndi a livhuwa`, etc.
+5. **Offline + live evaluation harness** at `backend/test_tshivenda.py`.
 
 ### 📝 Quiz Mode
-Interactive quizzes across 10 CAPS-aligned subjects. Supports multiple choice, true/false, and fill-in-the-blank questions with instant AI-generated feedback and explanations.
+Interactive quizzes across 10 CAPS-aligned subjects. MCQ / true-false / fill-in-blank with instant AI feedback.
 
-<!-- ![Quiz Screenshot](docs/screenshots/quiz.png) -->
+### ❓ Community Info (was School FAQ)
+Quick answers to common questions about school fees, term dates, admissions, uniform, transport, and contacts. Structured search first, AI fallback.
 
-### ❓ School FAQ
-Instant answers to common school questions (fees, term dates, admissions, uniform, transport, contacts). Searches a structured FAQ database first, falls back to AI for complex queries.
-
-<!-- ![FAQ Screenshot](docs/screenshots/faq.png) -->
-
-### 📢 Announcement Generator
-Write a school notice once in English, and Gudani translates it into all 9 languages instantly. Supports formal and casual tones. One-click copy for each translation.
-
-<!-- ![Announcements Screenshot](docs/screenshots/announcements.png) -->
+### 📢 Notices Generator
+Write a notice in English (or any supported language), Gudani translates it into all 9 languages.
 
 ### ⚙️ Settings
-- Language selector with native language names
-- Grade level selector (Grade 1–12)
-- Dark mode toggle
+Language selector · Grade level (1–12) · Dark mode toggle.
 
 ---
 
@@ -86,9 +111,12 @@ Write a school notice once in English, and Gudani translates it into all 9 langu
 |-------------|----------------------------------------------------------------|
 | **Frontend** | React 18, Vite 6, Tailwind CSS 3, Plus Jakarta Sans          |
 | **Backend**  | Python 3.11+, FastAPI, Pydantic, uvicorn                     |
-| **AI/LLM**   | Groq API (Llama 3.3 70B Versatile)                           |
-| **Translation** | Google Cloud Translation API v2                            |
-| **Language Detection** | `langdetect` (Python library)                      |
+| **AI/LLM**   | Groq (Llama 3.3 70B) for general chat · Gemini 2.0 Flash for Tshivenda + image vision |
+| **Translation** | Google Cloud Translation API v2 (optional, for af/zu/xh/st/tn/nso/ts only) |
+| **Language Detection** | `langdetect` + Tshivenda heuristic (langdetect has no ve profile) |
+| **Voice (frontend)** | Browser Web Speech API (SpeechRecognition + SpeechSynthesis) |
+| **Voice (backend)** | Pluggable stubs — server STT/TTS providers can be wired in [`app/services/speech.py`](backend/app/services/speech.py) |
+| **History storage** | File-based JSON at `backend/app/data/conversations/<id>.json`. Swap for Supabase/Postgres without changing the router contract. |
 | **Hosting**  | Vercel (frontend), Render (backend, free tier)                |
 
 ---
@@ -129,13 +157,30 @@ Write a school notice once in English, and Gudani translates it into all 9 langu
 └──────────────────────────────────────────────────────────┘
 ```
 
-**Chat Flow:**
-1. User sends a message in any language
-2. Backend detects the language (or uses the user's selection)
-3. If non-English → translate to English via Google Translate
-4. Send English text to Groq LLM with grade-appropriate system prompt
-5. Translate LLM response back to the user's language
-6. Return response with language metadata
+**Chat Flow (general languages):**
+1. User sends a message
+2. Backend detects the language (Tshivenda heuristic runs first; otherwise langdetect)
+3. If non-English/Afrikaans → translate to English via Google Translate
+4. Send to Groq with system prompt
+5. Translate response back to user's language
+
+**Tshivenda Flow (special):**
+1. Detect (heuristic in `services/tshivenda.py`)
+2. Normalize input (corrections JSON)
+3. Skip the English roundtrip — call **Gemini directly** with a Tshivenda-anchored system prompt + curated few-shot
+4. If Gemini fails, fall back to Groq with the same prompt
+5. **Post-process** output through the same corrections normalizer before returning
+
+**Image Flow:**
+1. User uploads via multipart `POST /api/media/analyze-image`
+2. Image bytes are validated (size + mime type)
+3. Sent to Gemini Vision with mode-specific prompt (qa / ocr / describe)
+4. Text response returned in the user's language
+
+**Voice Flow:**
+1. Mic button uses browser SpeechRecognition → transcript becomes the chat input
+2. Listen button uses browser SpeechSynthesis with a BCP-47 tag for the message language
+3. Backend `/api/media/transcribe` and `/api/media/synthesize` exist as a pluggable structured fallback (currently return `supported: false` until a provider is wired in)
 
 ---
 
@@ -147,8 +192,9 @@ Write a school notice once in English, and Gudani translates it into all 9 langu
 - **Node.js 18+** ([nodejs.org](https://nodejs.org/))
 - **Git** ([git-scm.com](https://git-scm.com/))
 - API Keys:
-  - [Groq API Key](https://console.groq.com/) (free tier available)
-  - [Google Cloud Translation API Key](https://cloud.google.com/translate/docs/setup) (optional — chat works without it in English)
+  - [Groq API Key](https://console.groq.com/) — required for general chat (free tier available)
+  - [Gemini API Key](https://ai.google.dev/) — required for **Tshivenda quality** + **image vision** (free tier available)
+  - [Google Cloud Translation API Key](https://cloud.google.com/translate/docs/setup) — optional; without it, non-English/Afrikaans/Tshivenda messages fall back to English
 
 ### Clone the repository
 
@@ -246,6 +292,36 @@ Base URL: `http://localhost:8000` (dev) or your Render URL (prod)
 | `GET`  | `/api/health`      | Health check             |
 | `GET/HEAD` | `/api/ping`   | Keep-alive ping          |
 | `GET`  | `/api/languages`   | List supported languages |
+
+### Media (image + voice)
+
+| Method | Endpoint                      | Description                                 |
+|--------|-------------------------------|---------------------------------------------|
+| `POST` | `/api/media/analyze-image`    | multipart image + optional prompt → analysis |
+| `POST` | `/api/media/transcribe`       | multipart audio → transcript (provider stub) |
+| `POST` | `/api/media/synthesize`       | text → audio (provider stub)                 |
+
+### Chat history
+
+| Method | Endpoint                      | Description                          |
+|--------|-------------------------------|--------------------------------------|
+| `GET`  | `/api/history`                | List saved conversations             |
+| `POST` | `/api/history`                | Create a conversation                |
+| `GET`  | `/api/history/{id}`           | Get a single conversation + messages |
+| `PATCH`| `/api/history/{id}`           | Update messages / title / language   |
+| `DELETE`|`/api/history/{id}`           | Delete a conversation                |
+
+### Language learning
+
+| Method | Endpoint                      | Description                          |
+|--------|-------------------------------|--------------------------------------|
+| `GET`  | `/api/learn/phrase-of-the-day`| Curated Tshivenda phrase             |
+| `GET`  | `/api/learn/vocabulary`       | Curated Tshivenda vocab (categories) |
+| `GET`  | `/api/learn/lessons`          | Lesson list                          |
+| `GET`  | `/api/learn/lessons/{id}`     | Lesson detail                        |
+| `POST` | `/api/learn/translate`        | Translate text → target language     |
+| `POST` | `/api/learn/explain`          | Explain a word/phrase                |
+| `POST` | `/api/learn/practice`         | Generate flashcards                  |
 
 ### Chat
 
@@ -432,14 +508,70 @@ gudani-bot/
 
 ---
 
+## ⚖️ Honest limits & fallbacks
+
+This project deliberately does **not** fake capability. Things to know:
+
+**Tshivenda quality layer**
+- The corrections JSON at [`backend/app/data/tshivenda_corrections.json`](backend/app/data/tshivenda_corrections.json) is hand-curated and small. It is **not** a full Tshivenda spellchecker — it targets observed model errors. Add entries when you see new ones.
+- Few-shot examples at [`backend/app/data/tshivenda_examples.json`](backend/app/data/tshivenda_examples.json) are also hand-checked. Don't auto-generate them.
+- The system prompt instructs the model to **admit uncertainty** rather than invent spellings. Some answers will say "A thi ḓivhi" or fall back to English in parentheses — this is intentional.
+
+**Voice support by language**
+| Language | Browser STT | Browser TTS | Notes |
+|----------|-------------|-------------|-------|
+| `en` | ✅ | ✅ | Best support across browsers |
+| `af` | ✅ | ✅ | Good in Chrome/Edge |
+| `zu`, `xh` | ⚠️ partial | ⚠️ partial | Voice availability depends on the OS/browser |
+| `st`, `tn`, `nso`, `ts` | ❌ | ❌ | No native voices in most browsers |
+| `ve` | ❌ | ❌ | **No browser voice support today.** Type the message instead. |
+
+When voice is unavailable, the UI shows an honest fallback message rather than producing fake audio.
+
+**Image vision**
+- Powered by Gemini 2.0 Flash. Free tier limits apply.
+- 6 MB upload cap (mirrored client and server side).
+- Allowed types: JPEG, PNG, WebP, HEIC.
+
+**Chat history storage**
+- Default storage is JSON files at `backend/app/data/conversations/<id>.json`. Render's free tier has an ephemeral filesystem — saved conversations will not survive a redeploy. For durable storage, swap [`backend/app/services/history.py`](backend/app/services/history.py) for a database client. The router contract does not change.
+
+---
+
+## 🧪 Testing
+
+**Backend smoke test:**
+```bash
+cd backend
+uvicorn app.main:app --reload --port 8000   # in one terminal
+python test_api.py                           # in another
+```
+
+**Tshivenda evaluation:**
+```bash
+cd backend
+python test_tshivenda.py            # offline checks (corrections, detection, prompt)
+python test_tshivenda.py --live     # full /api/chat round-trip (requires backend running)
+```
+
+**Frontend build:**
+```bash
+cd frontend
+npm run build
+```
+
+A full **manual testing checklist** is at [`docs/TESTING_CHECKLIST.md`](docs/TESTING_CHECKLIST.md).
+
+---
+
 ## 🔮 Future Roadmap
 
 - [ ] **Career Guidance Module** — Help learners explore career paths based on their subjects and interests
 - [ ] **Lesson Plan Generator** — AI-generated lesson plans for teachers, aligned to CAPS curriculum
-- [ ] **Voice Input/Output** — Speech-to-text and text-to-speech for learners with limited literacy
+- [ ] **Real Tshivenda TTS** — Plug a custom or community-trained Tshivenda voice into `services/speech.py`
 - [ ] **siSwati & isiNdebele** — Expand from 9 to all 11 official South African languages
 - [ ] **Offline Mode** — PWA support with cached FAQ data for areas with poor connectivity
-- [ ] **Student Progress Tracking** — Persistent quiz scores and learning analytics
+- [ ] **Database-backed history** — Swap file storage for Supabase or Postgres
 - [ ] **Teacher Dashboard** — Admin panel for managing FAQ data and viewing usage statistics
 - [ ] **WhatsApp Integration** — Reach learners where they already are via WhatsApp Business API
 

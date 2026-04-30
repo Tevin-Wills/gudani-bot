@@ -199,6 +199,77 @@
 
 ---
 
+## 🆕 v2 Features
+
+### 🌟 Tshivenda Quality Layer
+
+Run the offline checks first:
+
+```bash
+cd backend
+python test_tshivenda.py
+```
+
+Then with the backend running, hit the live chat:
+
+- [ ] Send `Mbumbano ndi mini?` → response contains `Mbumbano` and **NEVER** `mbumbno`
+- [ ] Send `Madzina anu ndi mini?` → response in Tshivenda referring to `madzina`
+- [ ] Send `Ndaa, ni khou ita hani?` → response in Tshivenda, polite register
+- [ ] Send `Ndi tama u guda Tshivenda` → switches into teaching tone, lists greetings
+- [ ] Send `Ni amba Tshivenda?` → bot answers in Tshivenda, admits if uncertain
+- [ ] Run `python test_tshivenda.py --live` → 0 failed cases
+
+### 🖼️ Image Upload + Vision
+
+- [ ] In Chat tab, click 📎 → file picker opens
+- [ ] Select a JPG/PNG ≤ 6MB → preview appears above the input
+- [ ] Click "Remove" → preview disappears
+- [ ] Pick an oversized file (>6MB) → friendly error appears, no upload
+- [ ] Pick a non-image file → friendly error appears
+- [ ] Send a photo of typed text **without prompt** → bot describes / reads the text
+- [ ] Send the same photo **with a question** ("What does this say?") → bot answers the question
+- [ ] Send an image while language is set to Tshivenda → bot replies in Tshivenda
+
+### 🎙️ Voice
+
+- [ ] Mic button is visible; tooltip says it isn't supported if browser lacks SpeechRecognition
+- [ ] Tap mic → button pulses red; speak in English → transcript fills the textarea
+- [ ] Tap mic again → recording stops; transcript stays editable
+- [ ] On any assistant message, tap "Listen" → device speaks the message
+- [ ] Tap "Listen" again → speech stops
+- [ ] Listen on a Tshivenda assistant message → "Listen" button shows fallback note (no native voice)
+
+### 🗂️ Chat History
+
+- [ ] Open Chat tab → "Past chats" button visible at top
+- [ ] Send a few messages → conversation appears in the sidebar after a moment
+- [ ] Open the sidebar → conversation is listed with timestamp and language
+- [ ] Click an old conversation → messages reload into the chat
+- [ ] Send a new message → it gets appended and persisted to the same conversation
+- [ ] Click "+ New chat" → empties the chat; fresh conversation starts on next send
+- [ ] Hover a conversation → "Delete" appears; click → conversation removed (with confirm)
+- [ ] Reload the page → conversations still listed
+
+### 🎓 Learn Mode
+
+- [ ] Click the Learn tab in the sidebar
+- [ ] **Phrase of the day** panel shows a Tshivenda phrase + English gloss; "Listen" button speaks it
+- [ ] **Vocabulary** panel: switch categories (greetings, family, school, everyday, community); each entry has a 🔊 button
+- [ ] **Lessons** panel: lesson list shows; click one → opens detail with content + practice lines
+- [ ] **Translate** panel: enter "Good morning, how are you?" → target Tshivenda → returns Tshivenda + English gloss
+- [ ] **Translate** to isiZulu → works (LLM-only, fewer guarantees)
+- [ ] **Explain** panel: enter `Mbumbano`, language Tshivenda → cultural + linguistic explanation
+- [ ] **Practice** panel: shows flashcards; tap to reveal English; "New set" reshuffles
+
+### 🧭 Repositioning
+
+- [ ] Sidebar shows: Chat · Learn · Quiz · Community Info · Notices · Settings
+- [ ] Header tagline reads "Multilingual community & learning assistant"
+- [ ] Welcome screen quick cards include translation and "Learn Tshivenda"
+- [ ] No copy in chat refers to a "school chatbot" (the school FAQ tab keeps its own copy)
+
+---
+
 ## ✅ Final Sign-Off
 
 - [ ] All features working as expected
@@ -206,6 +277,10 @@
 - [ ] Tested on mobile and desktop
 - [ ] Tested in at least 3 languages
 - [ ] Dark mode tested
+- [ ] Tshivenda quality layer verified offline + live
+- [ ] Image upload happy + failure paths tested
+- [ ] Voice mic + listen tested in at least one supported language
+- [ ] Past chats save / reopen / delete tested
 
 **Tester:** ___________________
 **Date:** ___________________

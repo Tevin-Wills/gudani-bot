@@ -4,14 +4,14 @@ from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 
 from app.models.schemas import HealthResponse, LanguageInfo
-from app.routers import chat, quiz, faq, announce
+from app.routers import chat, quiz, faq, announce, history, media, language_learning
 
 logging.basicConfig(
     level=logging.INFO,
     format="%(asctime)s - %(name)s - %(levelname)s - %(message)s",
 )
 
-app = FastAPI(title="Gudani Bot API", version="1.0.0")
+app = FastAPI(title="Gudani Bot API", version="2.0.0")
 
 app.add_middleware(
     CORSMiddleware,
@@ -29,6 +29,9 @@ app.include_router(chat.router)
 app.include_router(quiz.router)
 app.include_router(faq.router)
 app.include_router(announce.router)
+app.include_router(history.router)
+app.include_router(media.router)
+app.include_router(language_learning.router)
 
 SUPPORTED_LANGUAGES = [
     LanguageInfo(code="en", name="English", native_name="English"),
@@ -45,7 +48,19 @@ SUPPORTED_LANGUAGES = [
 
 @app.get("/")
 async def root():
-    return {"message": "Gudani Bot API is running!", "version": "1.0.0", "docs": "/docs"}
+    return {
+        "message": "Gudani Bot API is running!",
+        "version": "2.0.0",
+        "docs": "/docs",
+        "features": [
+            "multilingual chat",
+            "image upload + vision",
+            "voice (browser-side STT/TTS, server fallback)",
+            "chat history",
+            "language learning mode",
+            "Tshivenda quality layer",
+        ],
+    }
 
 
 @app.api_route("/api/ping", methods=["GET", "HEAD"])

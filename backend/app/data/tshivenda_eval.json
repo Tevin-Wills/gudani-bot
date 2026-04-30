@@ -1,0 +1,57 @@
+{
+  "_meta": {
+    "description": "Offline evaluation prompts for Tshivenda. Each case lists the user prompt and expected_keywords (substrings that should appear in the response — case-insensitive) and forbidden_keywords (substrings that must NOT appear — typically known misspellings). The test runner backend/test_tshivenda.py exercises these against the live chat pipeline.",
+    "version": "1.0"
+  },
+  "cases": [
+    {
+      "id": "greeting-1",
+      "prompt": "Ndaa, ni khou ita hani?",
+      "expected_keywords": ["ndaa", "zwavhu"],
+      "forbidden_keywords": ["mbumbno"],
+      "language": "ve"
+    },
+    {
+      "id": "name-1",
+      "prompt": "Madzina anu ndi mini?",
+      "expected_keywords": ["madzina", "gudani"],
+      "forbidden_keywords": ["mbumbno", "ndinmini"],
+      "language": "ve"
+    },
+    {
+      "id": "mbumbano-1",
+      "prompt": "Mbumbano ndi mini?",
+      "expected_keywords": ["mbumbano"],
+      "forbidden_keywords": ["mbumbno"],
+      "language": "ve"
+    },
+    {
+      "id": "thanks-1",
+      "prompt": "Ndi nga amba hani 'thank you' nga Tshivenda?",
+      "expected_keywords": ["livhuwa"],
+      "forbidden_keywords": ["alivhuwa"],
+      "language": "ve"
+    },
+    {
+      "id": "teach-me-1",
+      "prompt": "Ndi tama u guda Tshivenda",
+      "expected_keywords": ["tshivenda", "ndaa"],
+      "forbidden_keywords": ["tshi venda", "luvenda"],
+      "language": "ve"
+    },
+    {
+      "id": "language-id-1",
+      "prompt": "Ni amba Tshivenda?",
+      "expected_keywords": ["tshivenda"],
+      "forbidden_keywords": ["mbumbno", "tshi venda"],
+      "language": "ve"
+    },
+    {
+      "id": "help-1",
+      "prompt": "Ndi humbela thuso",
+      "expected_keywords": ["thuso"],
+      "forbidden_keywords": ["mbumbno"],
+      "language": "ve"
+    }
+  ]
+}

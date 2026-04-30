@@ -17,8 +17,9 @@ export const GRADES = Array.from({ length: 12 }, (_, i) => i + 1);
 
 export const TABS = [
   { id: "chat", label: "Chat", emoji: "\uD83D\uDCAC" },
+  { id: "learn", label: "Learn", emoji: "\uD83C\uDF93" },
   { id: "quiz", label: "Quiz", emoji: "\uD83D\uDCDD" },
-  { id: "faq", label: "School Info", emoji: "\u2753" },
+  { id: "faq", label: "Community Info", emoji: "\u2753" },
   { id: "notices", label: "Notices", emoji: "\uD83D\uDCE2" },
   { id: "settings", label: "Settings", emoji: "\u2699\uFE0F" },
 ];
